@@ -29,6 +29,12 @@ const UserSchema = new Schema(
         ref: 'Tea'
       }
     ],
+    addedProducts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Tea'
+      }
+    ],
     fullname: String,
     location: String,
     imageUrl: String,

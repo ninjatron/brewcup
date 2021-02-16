@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const Tea = require('../models/tea');
+const User = require('../models/user');
 
 // collection operations
 const getAllTeas = (req, res, next) => {
@@ -40,6 +41,7 @@ const addTea = (req, res, next) => {
     throw error;
   }
 
+  let owner;
   const tea = new Tea({
     name: req.body.name,
     description: req.body.description,
@@ -50,14 +52,27 @@ const addTea = (req, res, next) => {
     isAvailable: req.body.isAvailable,
     flavor: req.body.flavor,
     leaf: req.body.leaf,
-    brewColor: req.body.brewcolor,    
+    brewColor: req.body.brewcolor,
+    addedBy: req.userId
   });
 
-  tea.save().then(result => {
+  tea.save()
+  .then(result => {
+    return User.findById(req.userId);
+  })
+  .then(user => {
+    owner = user;
+    user.addedProducts.push(tea);
+    return user.save();
+  })
+  .then(result => {
     res.status(201).json({
-      tea: result
-    })
-  }).catch(err => {
+      message: "Added new tea",
+      tea: tea,
+      addedBy: {_id: owner._id, name: owner.username }
+    });
+  })
+  .catch(err => {
     if (!err.statusCode) {
       err.statusCode = 500;
     }

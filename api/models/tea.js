@@ -45,6 +45,11 @@ const TeaSchema = new Schema(
         ref: 'User'
       }
     ],
+    addedBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
     region: String,
     estate: String,
     isAvailable: Boolean,

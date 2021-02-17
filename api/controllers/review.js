@@ -46,55 +46,68 @@ const addReview = (req, res, next) => {
     next(err);
   }
 
-  //return await models.User.find({ _id: { $in: note.favoritedBy } });
-
-  console.log("BUR");
-  const score = req.body.score;
-  let reviewer;
-  let reviewedTea;
-  const newReview = new Review({
-    title: req.body.title,
-    content: req.body.content,
-    score: req.body.score,
-    author: req.body.userId,
-    product: req.body.productId
-  });
-
-
-  newReview.save()
-    .then(review => {
-      return User.findById(req.body.userId);
+  Tea.findById(req.body.productId)
+    .then(tea => {
+      return tea.reviewedBy.find(elem => elem == req.body.userId);
     })
-    .then(user => {
-      reviewer = user;
-      user.reviews.push(newReview);
-      return user.save();
-    })
-    .then(nextVal => {
-      return Tea.findById(req.body.productId);
-    })
-    .then(teaToUpdate => {
-      if (score > 0) {  
-        const aggregateScore = (teaToUpdate.score * teaToUpdate.scoredBy) + score;
-        teaToUpdate.scoredBy += 1;
-        const newScore = aggregateScore / teaToUpdate.scoredBy;
-        teaToUpdate.score = newScore;
+    .then(reviewedBy => {
+      if (reviewedBy) {
+        res.status(401).json({
+          message: "Multiple reviews of the same product is not allowed",
+        });
+      } else {
+        const score = req.body.score;
+        let reviewer;
+        let reviewedTea;
+        
+        const newReview = new Review({
+          title: req.body.title,
+          content: req.body.content,
+          score: req.body.score,
+          author: req.body.userId,
+          product: req.body.productId
+        });
+      
+        
+        newReview.save()
+          .then(review => {
+            return User.findById(req.body.userId);
+          })
+          .then(user => {
+            reviewer = user;
+            user.reviews.push(newReview);
+            return user.save();
+          })
+          .then(nextVal => {
+            return Tea.findById(req.body.productId);
+          })
+          .then(teaToUpdate => {
+            if (score > 0) {  
+              const aggregateScore = (teaToUpdate.score * teaToUpdate.scoredBy) + score;
+              teaToUpdate.scoredBy += 1;
+              const newScore = aggregateScore / teaToUpdate.scoredBy;
+              teaToUpdate.score = newScore;
+            }
+            teaToUpdate.reviewCount += 1;
+            reviewedTea = teaToUpdate;
+            teaToUpdate.reviewedBy.push(req.body.userId);
+            teaToUpdate.reviews.push(newReview);
+            return teaToUpdate.save();
+          })
+          .then(review => {
+            res.status(200).json({ 
+              message: "Review is added.", 
+              review: review,
+              author: reviewer
+            });
+          }).catch(err => {
+            console.log(err);
+          });
       }
-      teaToUpdate.reviewCount += 1;
-      reviewedTea = teaToUpdate;
-      teaToUpdate.reviewedBy.push(req.body.userId);
-      teaToUpdate.reviews.push(newReview);
-      return teaToUpdate.save();
     })
-    .then(review => {
-      res.status(200).json({ 
-        message: "Review is added.", 
-        review: review,
-        author: reviewer
-      });
-    }).catch(err => {
-      console.log(err);
-    })
+    .catch(err => {
+      throw err;
+    });
 };
 
 const updateReview = (req, res, next) => {

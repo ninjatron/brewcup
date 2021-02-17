@@ -7,7 +7,18 @@ const authToken = require('../middlewares/authToken');
 
 // return a user's all reviews
 const getUsersReviews = (req, res, next) => {
-  return 1;
+  const userId = req.body.userId;
+  Review.find({"author": userId})
+    .then(reviews => {
+      res.status(200).json({
+        message: "Retrieved user reviews",
+        reviews: reviews
+      })
+    })
+    .catch(err => {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    })
 };
 
 // get all reviews belonging to a product
@@ -22,7 +33,7 @@ const getProductReviews = (req, res, next) => {
     })
     .catch(err => {
       if (!err.statusCode) err.statusCode = 404;
-      throw err;
+      next(err);
     })
 };
 
@@ -106,16 +117,40 @@ const addReview = (req, res, next) => {
       }
     })
     .catch(err => {
-      throw err;
+      next(err);
     });
 };
 
+// add update score later, probably need to add a utility function
+// or not, do we want score to be updated later, maybe content change is enough
 const updateReview = (req, res, next) => {
-
+  const reviewId = req.body.reviewId;
+  Review.findOne({_id: reviewId})
+    .then(review => {
+      review.content = req.body.content;
+      review.save();
+      res.status(200).json({
+        message: "Review updated.",
+        review: review
+      });
+    })
+    .catch(err => {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    });
 };
 
+// make sure to delete references as well
 const deleteReview = (req, res, next) => {
-
+  const reviewId = req.body.reviewId;
+  Review.findOneAndDelete(reviewId)
+    .then(result => {
+      res.status(200).json({ message: "Review deleted." });
+    })
+    .catch(err => {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    })
 };
 
 module.exports = {

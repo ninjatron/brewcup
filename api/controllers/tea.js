@@ -13,7 +13,6 @@ const getAllTeas = (req, res, next) => {
 };
 
 // single identity operations
-
 // gets a single tea using teaId from request params
 const getTea = (req, res, next) => {
   const teaId = req.params.teaId;
@@ -89,7 +88,7 @@ const updateTea = (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
-  console.log(req.params);
+
   const teaId = req.params.teaId;
   Tea.findById(teaId).then(tea => {
     tea.name = req.body.name;
@@ -121,7 +120,6 @@ const deleteTea = (req, res, next) => {
     next(err); 
   });
 };
-
 
 module.exports = {
   getTea,

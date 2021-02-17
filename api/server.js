@@ -10,6 +10,7 @@ dotenv.config();
 const userRoutes = require('./routes/user');
 const teaRoutes = require('./routes/tea');
 const authRoutes = require('./routes/auth');
+const reviewRoutes = require('./routes/review');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(cors());
 app.use(userRoutes);
 app.use("/tea", teaRoutes);
 app.use("/auth", authRoutes);
+app.use(reviewRoutes);
 
 // error handler
 app.use(function (error, req, res, next) {

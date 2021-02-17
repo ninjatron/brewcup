@@ -19,10 +19,6 @@ const TeaSchema = new Schema(
       type: String,
       required: true
     },
-    favoriteCount: {
-      type: Number,
-      default: 0
-    },
     favoritedBy: [
       {
         type: Schema.Types.ObjectId,
@@ -35,10 +31,6 @@ const TeaSchema = new Schema(
         ref: 'Review',
       }
     ],
-    reviewCount: {
-      type: Number,
-      default: 0
-    },
     reviewedBy: [
       {
         type: Schema.Types.ObjectId,
@@ -50,14 +42,38 @@ const TeaSchema = new Schema(
       ref: 'User',
       required: true
     },
-    region: String,
-    estate: String,
-    isAvailable: Boolean,
-    flavor: String,
-    leaf: String,
-    brewColor: String,
-    score: Number,
-    scoredBy: Number
+    region: {
+      type: String,
+      default: ""
+    },
+    estate: {
+      type: String,
+      default: ""
+    },
+    isAvailable: {
+      type: Boolean,
+      default: false
+    },
+    flavor: {
+      type: String,
+      default: "",
+    },
+    leaf: {
+      type: String,
+      default: ""
+    },
+    brewColor: {
+      String,
+      default: ""
+    },
+    score: {
+      type: Number,
+      default: 0
+    },
+    scoredBy: {
+      type: Number,
+      default: 0
+    }
   },
   {
     timestamps: true,

@@ -40,12 +40,6 @@ const addTea = (req, res, next) => {
     throw error;
   }
 
-  if (!req.body.userId) {
-    const error = new Error('You need to be a member to add tea.');
-    error.statusCode = 403;
-    throw error;
-  }
-
   let owner;
   const tea = new Tea({
     name: req.body.name,

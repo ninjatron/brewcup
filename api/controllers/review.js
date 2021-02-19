@@ -52,7 +52,7 @@ const addReview = (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    const error = new Error("Failed to get review");
+    const error = new Error("Failed to add review");
     error.statusCode = 422;
     next(err);
   }
@@ -125,6 +125,13 @@ const addReview = (req, res, next) => {
 // or not, do we want score to be updated later, maybe content change is enough
 const updateReview = (req, res, next) => {
   const reviewId = req.body.reviewId;
+  
+  if (req.body.author !== req.userId) {
+    const error = new Error("Not authorized");
+    error.statusCode = 403;
+    throw error;
+  }
+
   Review.findOne({_id: reviewId})
     .then(review => {
       review.content = req.body.content;
@@ -145,14 +152,19 @@ const deleteReview = (req, res, next) => {
   const reviewId = req.body.reviewId;
   Review.findOneAndDelete(reviewId)
     .then(step => {
-      return User.findById(res.body.userId);
+      return User.findById(req.userId);
     })
     .then(user => {
+      console.log("USER: ", user);
       user.reviews.pull(reviewId);
-      return Tea.findById(req.body.teaId);
+      user.save();
+      return Tea.findById(req.params.teaId);
     })
     .then(tea => {
+      console.log("TEA", tea);
       tea.reviews.pull(reviewId);
+      tea.reviewedBy.pull(req.userId);
+      return tea.save();
     })
     .then(result => {
       res.status(200).json({ message: "Review deleted." });

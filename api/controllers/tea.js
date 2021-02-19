@@ -40,6 +40,12 @@ const addTea = (req, res, next) => {
     throw error;
   }
 
+  if (!req.body.userId) {
+    const error = new Error('You need to be a member to add tea.');
+    error.statusCode = 403;
+    throw error;
+  }
+
   let owner;
   const tea = new Tea({
     name: req.body.name,
@@ -91,6 +97,16 @@ const updateTea = (req, res, next) => {
 
   const teaId = req.params.teaId;
   Tea.findById(teaId).then(tea => {
+    if (!tea) {
+      const error = Error('Tea does not exist.');
+      error.statusCode = 404;
+      throw error;
+    }
+    if (tea.addedBy.toString() !== req.body.userId) {
+      const error = new Error('Only creator of an item can change its description.');
+      error.statusCode = 403;
+      throw error;
+    }
     tea.name = req.body.name;
     tea.description = req.body.description; 
     tea.teaType = req.body.teaType;
@@ -113,9 +129,23 @@ const updateTea = (req, res, next) => {
 // deletes a tea
 const deleteTea = (req, res, next) => {
   const teaId = req.params.teaId;
-  Tea.findOneAndDelete(teaId).then(result => {
+  Tea.findById(teaId).then(tea => {
+    if (tea.addedBy.toString() !== req.body.userId) {
+      const error = new Error('Only creator of an item can change its description.');
+      error.statusCode = 403;
+      throw error;
+    }
+    tea.remove();
+    return User.findById(req.body.userId);
+  })
+  .then(user => {
+    user.addedProducts.pull(teaId);
+    return user.save();
+  })
+  .then(result => {
     res.status(200).json({ message: "Item has been deleted." });
-  }).catch(err => {
+  })
+  .catch(err => {
     if (!err.statusCode) err.statusCode = 500;
     next(err); 
   });

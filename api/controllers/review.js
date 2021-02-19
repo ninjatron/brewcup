@@ -144,6 +144,16 @@ const updateReview = (req, res, next) => {
 const deleteReview = (req, res, next) => {
   const reviewId = req.body.reviewId;
   Review.findOneAndDelete(reviewId)
+    .then(step => {
+      return User.findById(res.body.userId);
+    })
+    .then(user => {
+      user.reviews.pull(reviewId);
+      return Tea.findById(req.body.teaId);
+    })
+    .then(tea => {
+      tea.reviews.pull(reviewId);
+    })
     .then(result => {
       res.status(200).json({ message: "Review deleted." });
     })

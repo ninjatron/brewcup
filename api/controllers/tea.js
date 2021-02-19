@@ -80,7 +80,7 @@ const addTea = (req, res, next) => {
 
 };
 
-// updates a tea detail
+// updates a tea detail, need to add user auth
 const updateTea = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

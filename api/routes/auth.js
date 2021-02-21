@@ -7,11 +7,12 @@ const authToken = require('../middlewares/authToken');
 
 const router = express.Router();
 
-router.put('/signup', [
+router.post('/auth/signup', [
   body('email')
     .isEmail().withMessage('Missing valid email')
     .custom((value, { req }) => {
       // if email exists in the DB reject
+      console.log(req);
       return User.findOne({ email: value }).then(user => {
         if (user) {
           return Promise.reject('E-mail is already registered.');
@@ -20,7 +21,7 @@ router.put('/signup', [
     }).
     normalizeEmail(),
   body('password').trim().isLength({ min: 8 }),
-  body('username').trim().notEmpty(),
+  //body('username').trim().notEmpty(),
   body('username').trim()
     .custom((value, { req }) => {
       // reject if username is taken
@@ -30,8 +31,8 @@ router.put('/signup', [
         }
       })
     }),
-], authController.signup);
+  ], authController.signup);
 
-router.post('/login', authController.login);
+router.post('/auth/login', authController.login);
 
 module.exports = router;

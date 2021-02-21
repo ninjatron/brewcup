@@ -32,8 +32,8 @@ app.use(cors());
 
 // ROUTES
 app.use(userRoutes);
-app.use("/tea", teaRoutes);
-app.use("/auth", authRoutes);
+app.use(teaRoutes);
+app.use(authRoutes);
 app.use(reviewRoutes);
 
 // error handler

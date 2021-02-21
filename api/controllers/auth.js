@@ -5,6 +5,7 @@ const { validationResult } = require('express-validator');
 const User = require('../models/user');
 
 const signup = (req, res, next) => {
+  console.log("HERE");
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = new Error("Validation failed");

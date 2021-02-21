@@ -7,7 +7,7 @@ const authToken = require('../middlewares/authToken');
 
 // return a user's all reviews
 const getUsersReviews = (req, res, next) => {
-  const userId = req.body.userId;
+  const userId = req.userId;
   Review.find({"author": userId})
     .then(reviews => {
       res.status(200).json({
@@ -50,7 +50,7 @@ const getReview = (req, res, next) => {
 
 const addReview = (req, res, next) => {
   const errors = validationResult(req);
-
+  console.log(req);
   if (!errors.isEmpty()) {
     const error = new Error("Failed to add review");
     error.statusCode = 422;
@@ -59,7 +59,7 @@ const addReview = (req, res, next) => {
 
   Tea.findById(req.body.productId)
     .then(tea => {
-      return tea.reviewedBy.find(elem => elem == req.body.userId);
+      return tea.reviewedBy.find(elem => elem == req.userId);
     })
     .then(reviewedBy => {
       if (reviewedBy) {
@@ -75,14 +75,14 @@ const addReview = (req, res, next) => {
           title: req.body.title,
           content: req.body.content,
           score: req.body.score,
-          author: req.body.userId,
+          author: req.userId,
           product: req.body.productId
         });
       
         
         newReview.save()
           .then(review => {
-            return User.findById(req.body.userId);
+            return User.findById(req.userId);
           })
           .then(user => {
             reviewer = user;
@@ -101,7 +101,7 @@ const addReview = (req, res, next) => {
             }
             teaToUpdate.reviewCount += 1;
             reviewedTea = teaToUpdate;
-            teaToUpdate.reviewedBy.push(req.body.userId);
+            teaToUpdate.reviewedBy.push(req.userId);
             teaToUpdate.reviews.push(newReview);
             return teaToUpdate.save();
           })
@@ -155,13 +155,11 @@ const deleteReview = (req, res, next) => {
       return User.findById(req.userId);
     })
     .then(user => {
-      console.log("USER: ", user);
       user.reviews.pull(reviewId);
       user.save();
       return Tea.findById(req.params.teaId);
     })
     .then(tea => {
-      console.log("TEA", tea);
       tea.reviews.pull(reviewId);
       tea.reviewedBy.pull(req.userId);
       return tea.save();

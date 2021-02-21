@@ -12,6 +12,25 @@ const getAllTeas = (req, res, next) => {
   });
 };
 
+const getRandomTeas = (req, res, next) => {
+  console.log("HELLO");
+  console.log(req.body.limit);
+  const limit = req.body.limit;
+  Tea.aggregate()
+    .sample(limit)
+    .then(teas => {
+      console.log(teas);
+      res.status(200).json({
+        message: "Teas retrieved",
+        teas: teas
+      });
+    })
+    .catch(err => {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    })
+}
+
 // single identity operations
 // gets a single tea using teaId from request params
 const getTea = (req, res, next) => {
@@ -96,7 +115,7 @@ const updateTea = (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    if (tea.addedBy.toString() !== req.body.userId) {
+    if (tea.addedBy.toString() !== req.userId) {
       const error = new Error('Only creator of an item can change its description.');
       error.statusCode = 403;
       throw error;
@@ -124,13 +143,13 @@ const updateTea = (req, res, next) => {
 const deleteTea = (req, res, next) => {
   const teaId = req.params.teaId;
   Tea.findById(teaId).then(tea => {
-    if (tea.addedBy.toString() !== req.body.userId) {
+    if (tea.addedBy.toString() !== req.userId) {
       const error = new Error('Only creator of an item can change its description.');
       error.statusCode = 403;
       throw error;
     }
     tea.remove();
-    return User.findById(req.body.userId);
+    return User.findById(req.userId);
   })
   .then(user => {
     user.addedProducts.pull(teaId);
@@ -150,5 +169,6 @@ module.exports = {
   addTea,
   updateTea,
   deleteTea,
-  getAllTeas
+  getAllTeas,
+  getRandomTeas
 };

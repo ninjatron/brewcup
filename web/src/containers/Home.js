@@ -1,15 +1,20 @@
 import React, { Component, Fragment } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+import TeaList from '../components/product/TeaList';
 
 const HomeWrapper = styled.div`
   font-size: 50px;
+  width: 600px;
 `;
 
 class Home extends Component {
   render() {
     return (
-      <HomeWrapper>YOOO</HomeWrapper>
+      <HomeWrapper>
+        <TeaList />
+      </HomeWrapper>
     );
   }
 }

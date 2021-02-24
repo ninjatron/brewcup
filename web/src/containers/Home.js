@@ -13,7 +13,7 @@ class Home extends Component {
   render() {
     return (
       <HomeWrapper>
-        <TeaList />
+        <TeaList sampleLimit={10} />
       </HomeWrapper>
     );
   }

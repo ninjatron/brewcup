@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import TeaService from "../../services/TeaService";
 import { Link } from "react-router-dom";
 
-const TeaList = () => {
+const TeaList = (props) => {
   const [teas, setTeas] = useState([]);
   const [currentTea, setCurrentTea] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   // const [searchTitle, setSearchTitle] = useState("");
 
   useEffect(() => {
-    retrieveTeas();
+    if (props.sampleLimit > 0)
+      retrieveSample();
+    else retrieveTeas();
   }, []);
 
 
@@ -17,7 +19,20 @@ const TeaList = () => {
     TeaService.getAll()
       .then(response => {
         setTeas(response.data);
-        console.log(response);
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+
+  const retrieveSample = () => {
+    console.log("In react limit", props.sampleLimit);
+    TeaService.getSample(props.sampleLimit)
+      .then(response => {
+        setTeas(response.data);
+        console.log(response.data);
       })
       .catch(e => {
         console.log(e);

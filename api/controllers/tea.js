@@ -13,9 +13,7 @@ const getAllTeas = (req, res, next) => {
 };
 
 const getRandomTeas = (req, res, next) => {
-  console.log("HELLO");
-  console.log(req.body.limit);
-  const limit = req.body.limit;
+  const limit = parseInt(req.params.limit);
   Tea.aggregate()
     .sample(limit)
     .then(teas => {

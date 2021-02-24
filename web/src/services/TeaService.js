@@ -2,7 +2,7 @@ import { get, post, put, destroy } from '../util/axios';
 
 const TeaService = {
   getAll: () => get('/teas'),
-  getSample: () => get('/teas/sample'),
+  getSample: (limit) => get(`/teas/sample/${limit}`),
   single: (id) => get(`/tea/${id}`),
   create: (body) => post('/tea', body),
   update: (id, body) => put(`/tea/${id}`, body),

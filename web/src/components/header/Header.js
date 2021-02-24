@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 // own imports
@@ -29,6 +29,7 @@ const RightArea = styled.div`
 `;
 
 const Header = () => {
+  const { isAuthenticated } = useContext();
   return (
     <HeaderWrapper>
       <NavWrapper>
@@ -41,7 +42,20 @@ const Header = () => {
             <Link to={"/add"}>Community</Link>
           </nav> 
         </LeftArea>
-        <RightArea>Account Stuff</RightArea>         
+        <RightArea>
+          {isAuthenticated ? (
+              <>
+                <Link to="/home">Home</Link>
+                <Link to="/my-account">My Account</Link>
+                {/* <Button color="inherit" onClick={this.props.logout}>
+                  Logout
+                </Button> */}
+              </>
+            ) : (
+              <Link to="/login">Login</Link>
+            )
+          }  
+        </RightArea>         
       </NavWrapper>
     </HeaderWrapper>
   )

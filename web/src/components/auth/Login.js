@@ -15,6 +15,8 @@ const LoginFormWrapper = styled.div`
 const Login = () => {
   const history = useHistory();
   const location = useLocation();
+  const currUser = JSON.parse(localStorage.getItem('currentUser'));
+  console.log("Token:", currUser);
 
   const initialUserState = {
     id: null,
@@ -50,6 +52,8 @@ const Login = () => {
         // });
         userHasAuthenticated(true);
         console.log(response);
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('currentUser', JSON.stringify(response.data));
         history.push("/");
       })
       .catch(e => {
@@ -67,6 +71,7 @@ const Login = () => {
       .then(response => {
         userHasAuthenticated(true);
         console.log(response);
+        localStorage.setItem('currentUser', JSON.stringify(response.data));
         history.push("/");
       })
       .catch(e => {

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const authToken = (req, res, next) => {
+  console.log("REQ;", req);
   const authHeader = req.get('Authorization');
   if (!authHeader) {
     const error = new Error('Not authenticated');
@@ -9,6 +10,7 @@ const authToken = (req, res, next) => {
   }
   // need to split bearer using space and extract token alone
   const token = authHeader.split(' ')[1];
+  console.log("Authheader: ", authHeader);
   let verifiedToken;
   try {
     verifiedToken = jwt.verify(token, process.env.JWT_SECRET);

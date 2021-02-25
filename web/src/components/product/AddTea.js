@@ -17,6 +17,7 @@ const AddTea = () => {
 
   const [tea, setTea] = useState(initialTeaState);
   const [submitted, setSubmitted] = useState(false);
+  const currUser = JSON.parse(localStorage.getItem('currentUser'));
 
   const handleInputChange = event => {
     console.log(event);

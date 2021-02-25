@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import AuthService from "../../services/AuthService";
 
@@ -12,18 +12,21 @@ const LoginFormWrapper = styled.div`
 
 `;
 
-const Login = (props) => {
+const Login = () => {
   const history = useHistory();
+  const location = useLocation();
+
   const initialUserState = {
     id: null,
     email: "",
     username: "",
-    password: "",
-    signup: props.signup,
+    password: "",  
   };
 
+  console.log(location);
   const [user, setUser] = useState(initialUserState);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
+  const signup = location.pathname === "/signup";
 
   const handleInputChange = event => {
     console.log(event);
@@ -45,7 +48,7 @@ const Login = (props) => {
         //   name: response.data.name,
         //   description: response.data.description,
         // });
-        setSubmitted(true);
+        userHasAuthenticated(true);
         console.log(response);
         history.push("/");
       })
@@ -54,13 +57,13 @@ const Login = (props) => {
       });
   };
 
-  const LoginUser = () => {
+  const loginUser = () => {
     var data = {
       username: user.username,
       password: user.password
     };
 
-    AuthService.create(data)
+    AuthService.login(data)
       .then(response => {
         userHasAuthenticated(true);
         console.log(response);
@@ -80,6 +83,19 @@ const Login = (props) => {
     <AuthFormWrapper>
       {signup ? (
         <div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="text"
+              className="form-control"
+              id="email"
+              required
+              value={user.email}
+              onChange={handleInputChange}
+              name="email"
+            />
+          </div>
+
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
@@ -147,4 +163,4 @@ const Login = (props) => {
   );
 };
 
-export default AddTea;
+export default Login;

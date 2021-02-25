@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 // own imports
+import { useAuthContext } from '../../context/AuthContext';
 import Logo from './Logo';
 
 const HeaderWrapper = styled.header`
@@ -29,7 +30,7 @@ const RightArea = styled.div`
 `;
 
 const Header = () => {
-  const { isAuthenticated } = useContext();
+  const { isAuthenticated } = useAuthContext();
   return (
     <HeaderWrapper>
       <NavWrapper>
@@ -52,9 +53,11 @@ const Header = () => {
                 </Button> */}
               </>
             ) : (
-              <Link to="/login">Login</Link>
-            )
-          }  
+              <>
+                <Link to="/login">Login</Link>
+                <Link to="/signup">Signup</Link>
+              </>
+            )}
         </RightArea>         
       </NavWrapper>
     </HeaderWrapper>

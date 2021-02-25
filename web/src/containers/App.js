@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { useContext, createContext } from "react";
+import { useState } from "react";
 // import own components
+import { AuthContext } from '../context/AuthContext';
 import Header from '../components/header/Header';
 import Home from './Home';
 import Teas from './Teas';
@@ -23,22 +24,23 @@ const AppWrapper = styled.div`
 
 `;
 
-const Context = createContext(null);
 
 const App = () => {
+  const [isAuthenticated, userHasAuthenticated] = useState(false);
+
   return (
     <Fragment>
       <GlobalStyle />
       <AppWrapper>
-        <Context.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+        <AuthContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
           <Router>
             <Header />
             <Route path='/' component={Home} />
             <Route path='/teas' component={Teas} />
             <Route path='/add-tea' component={AddTea} />
-            <Route path='/login' component={Enter} />
+            <Route path={["/login", "/signup"]} component={Enter} />
           </Router>  
-        </Context.Provider>
+        </AuthContext.Provider>
       </AppWrapper>
     </Fragment>
   )

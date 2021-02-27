@@ -15,8 +15,8 @@ const LoginFormWrapper = styled.div`
 const Login = () => {
   const history = useHistory();
   const location = useLocation();
-  const currUser = JSON.parse(localStorage.getItem('currentUser'));
-  console.log("Token:", currUser);
+  //const currUser = JSON.parse(localStorage.getItem('currentUser'));
+  //console.log("Token:", currUser);
 
   const initialUserState = {
     id: null,
@@ -25,7 +25,6 @@ const Login = () => {
     password: "",  
   };
 
-  console.log(location);
   const [user, setUser] = useState(initialUserState);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const signup = location.pathname === "/signup";
@@ -70,7 +69,7 @@ const Login = () => {
     AuthService.login(data)
       .then(response => {
         userHasAuthenticated(true);
-        console.log(response);
+        console.log("Login: ", response);
         localStorage.setItem('currentUser', JSON.stringify(response.data));
         history.push("/");
       })

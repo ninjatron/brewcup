@@ -31,6 +31,7 @@ const RightArea = styled.div`
 
 const Header = () => {
   const { isAuthenticated } = useAuthContext();
+  console.log("HEADER: ", isAuthenticated);
   return (
     <HeaderWrapper>
       <NavWrapper>

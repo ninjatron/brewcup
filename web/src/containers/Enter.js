@@ -9,7 +9,7 @@ const EntranceWrapper = styled.div`
 
 `;
 
-const Enter = (props) => {
+const Enter = () => {
   const { isAuthenticated } = useAuthContext();
 
   return (

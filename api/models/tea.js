@@ -19,6 +19,7 @@ const TeaSchema = new Schema(
       type: String,
       required: true
     },
+    photos: [String],
     favoritedBy: [
       {
         type: Schema.Types.ObjectId,

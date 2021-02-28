@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 
-const upload = require("../services/ImageUpload");
+const uploadManyImages = require("../services/ImageUpload");
 const Tea = require('../models/tea');
 const User = require('../models/user');
 
@@ -58,6 +58,7 @@ const addTea = (req, res, next) => {
     throw error;
   }
 
+  // TODO: Add images
   let owner;
   const tea = new Tea({
     name: req.body.name,
@@ -115,7 +116,7 @@ const updateTea = (req, res, next) => {
       throw error;
     }
     if (tea.addedBy.toString() !== req.userId) {
-      const error = new Error('Only creator of an item can change its description.');
+      const error = new Error('Only creator of an item can change its details.');
       error.statusCode = 403;
       throw error;
     }
@@ -139,8 +140,47 @@ const updateTea = (req, res, next) => {
 };
 
 const updateTeaPhotos = (req, res, next) => {
+  if (req.files === 'undefined') {
+    const error = Error('No image uploaded.');
+    error.statusCode = 404;
+    throw error;
+  }
 
-};
+  const teaId = req.params.teaId;
+  const imageLocations = [];
+
+  uploadManyImages(req, res, function (err) {
+    if (err) {
+      return res.json({
+        success: false,
+        errors: {
+          title: "Image Upload Error",
+          detail: err.message,
+          error: err,
+        },
+      });
+    }
+
+    for (let i = 0; i < req.files.size(); ++i)
+      imageLocations.push(req.files[i].location);
+  });
+
+  const update = { photos: imageLocations };
+  Tea.findByIdAndUpdate(teaId, update)
+    .then(tea => {
+      res.status(200).json({ 
+        message: "Images uploaded", 
+        tea: tea 
+      })
+    })
+    .catch(err => {
+      res.status(400).json({ 
+        message: "Tea could not be updated", 
+        error: err 
+      })
+    });
+
+}; // end of updateTeaPhotos
 
 // deletes a tea
 const deleteTea = (req, res, next) => {

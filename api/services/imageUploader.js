@@ -32,4 +32,10 @@ const uploadImage = multer({
   }),
 });
 
-module.exports = uploadImage;
+const uploadOneImage = uploadImage.single();
+const uploadManyImages = uploadImage.array();
+
+module.exports = { 
+  uploadOneImage, 
+  uploadManyImages 
+};

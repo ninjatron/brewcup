@@ -7,15 +7,20 @@ const router = express.Router();
 // controllers
 const teaController = require('../controllers/tea');
 
-// GET all teas from /teas/get
+// GETS
+// all teas from /teas/get
 router.get('/teas', teaController.getAllTeas);
+// limited sample random return
 router.get('/teas/sample/:limit', teaController.getRandomTeas);
-// GET a single tea from /tea/get 
+// single tea
 router.get('/tea/:teaId', teaController.getTea);
-// POST a single tea to /tea/post
+
+// POSTS
+// create single tea
 router.post('/tea', authToken, teaController.addTea);
-// PATCH a single tea to /tea/post
-router.patch('/tea/:teaId', authToken, teaController.updateTea);
+// PUTS
+router.put('/tea/:teaId', authToken, teaController.updateTea);
+router.put('/tea/:teaId/images', authToken, teaController.updateTeaPhotos);
 // DELETE a single tea to /tea/patch
 router.delete('/tea/:teaId', authToken, teaController.deleteTea);
 

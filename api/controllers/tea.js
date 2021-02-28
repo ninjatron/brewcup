@@ -1,4 +1,6 @@
 const { validationResult } = require('express-validator');
+
+const upload = require("../services/ImageUpload");
 const Tea = require('../models/tea');
 const User = require('../models/user');
 
@@ -17,7 +19,6 @@ const getRandomTeas = (req, res, next) => {
   Tea.aggregate()
     .sample(limit)
     .then(teas => {
-      console.log(teas);
       res.status(200).json({
         message: "Teas retrieved",
         teas: teas
@@ -137,6 +138,10 @@ const updateTea = (req, res, next) => {
   });
 };
 
+const updateTeaPhotos = (req, res, next) => {
+
+};
+
 // deletes a tea
 const deleteTea = (req, res, next) => {
   const teaId = req.params.teaId;
@@ -166,6 +171,7 @@ module.exports = {
   getTea,
   addTea,
   updateTea,
+  updateTeaPhotos,
   deleteTea,
   getAllTeas,
   getRandomTeas

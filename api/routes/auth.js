@@ -21,7 +21,7 @@ router.post('/auth/signup', [
     }).
     normalizeEmail(),
   body('password').trim().isLength({ min: 8 }),
-  //body('username').trim().notEmpty(),
+  body('username').trim().notEmpty(),
   body('username').trim()
     .custom((value, { req }) => {
       // reject if username is taken

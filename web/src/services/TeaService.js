@@ -6,7 +6,6 @@ const TeaService = {
   single: (id) => get(`/tea/${id}`),
   create: (body) => {
     const authToken = authHeader();
-    console.log(authToken);
     return post('/tea', body, { headers: authToken });
   },
   update: (id, body) => put(`/tea/${id}`, body),

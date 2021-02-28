@@ -10,7 +10,6 @@ const authToken = (req, res, next) => {
   }
   // need to split bearer using space and extract token alone
   const token = authHeader.split(' ')[1];
-  console.log("Authheader: ", authHeader);
   let verifiedToken;
   try {
     verifiedToken = jwt.verify(token, process.env.JWT_SECRET);

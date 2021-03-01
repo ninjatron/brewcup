@@ -19,8 +19,9 @@ const fileFilter = (req, file, cb) => {
 const uploadImage = multer({
   fileFilter,
   storage: multerS3({
+    //acl: 'public-read',
     s3,
-    bucket: "brewandcup",
+    bucket: "brewandcup/productImages",
     metadata: function (req, file, cb) {
       cb(null, { fieldName: "TESTING_METADATA" });
     },
@@ -30,6 +31,20 @@ const uploadImage = multer({
   }),
 });
 
-
-
 module.exports = uploadImage;
+
+// {
+//   "Version": "2012-10-17",
+//   "Id": "BrewAndCupS3",
+//   "Statement": [
+//       {
+//           "Sid": "Stmt1614579508185",
+//           "Effect": "Allow",
+//           "Principal": {
+//               "AWS": "arn:aws:iam::907921864465:user/brewandcupUser"
+//           },
+//           "Action": "s3:*",
+//           "Resource": "arn:aws:s3:::brewandcup/*"
+//       }
+//   ]
+// }

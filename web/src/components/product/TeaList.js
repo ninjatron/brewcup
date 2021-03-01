@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
 import TeaService from "../../services/TeaService";
+import styled from 'styled-components';
 import { Link } from "react-router-dom";
+
+import TeaCard from './TeaCard';
+
+const TeaListWrapper = styled.div`
+
+`;
 
 const TeaList = (props) => {
   const [teas, setTeas] = useState([]);
   const [currentTea, setCurrentTea] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
+  const [isSample, setSampler] = useState(props.sampleLimit);
   // const [searchTitle, setSearchTitle] = useState("");
 
   useEffect(() => {
@@ -18,7 +26,7 @@ const TeaList = (props) => {
   const retrieveTeas = () => {
     TeaService.getAll()
       .then(response => {
-        setTeas(response.data);
+        setTeas(response.data.teas);
         console.log(response.data);
       })
       .catch(e => {
@@ -28,10 +36,9 @@ const TeaList = (props) => {
 
 
   const retrieveSample = () => {
-    console.log("In react limit", props.sampleLimit);
     TeaService.getSample(props.sampleLimit)
       .then(response => {
-        setTeas(response.data);
+        setTeas(response.data.teas);
         console.log(response.data);
       })
       .catch(e => {
@@ -68,7 +75,10 @@ const TeaList = (props) => {
 //   };
 
   return (
-    <h1>Got them</h1>
+    <TeaListWrapper>
+      <h1>tea</h1>
+      { teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) }
+    </TeaListWrapper>
   );
 };
 

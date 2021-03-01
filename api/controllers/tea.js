@@ -63,6 +63,8 @@ const addTea = (req, res, next) => {
 
   // TODO: Add images
   let owner;
+  let imageAddresses = req.files.map(img => img.location);
+
   const tea = new Tea({
     name: req.body.name,
     description: req.body.description,
@@ -74,13 +76,11 @@ const addTea = (req, res, next) => {
     flavor: req.body.flavor,
     leaf: req.body.leaf,
     brewColor: req.body.brewcolor,
-    addedBy: req.userId
+    addedBy: req.userId,
+    photos: imageAddresses
   });
 
   tea.save()
-    .then(res => {
-      updateTeaPhotos(req, res, next);
-    })
     .then(result => {
       return User.findById(req.userId);
     })
@@ -172,7 +172,7 @@ const updateTeaPhotos = (req, res, next) => {
       imageLocations.push(req.files[i].location);
   });
 
-  console.log(imageLocations);
+  console.log("Image locs:", imageLocations);
   const update = { photos: imageLocations };
   Tea.findOneAndUpdate(teaId, update)
     .then(tea => {

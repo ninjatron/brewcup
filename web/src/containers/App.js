@@ -35,7 +35,7 @@ const App = () => {
         <AuthContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
           <Router>
             <Header />
-            <Route path='/' component={Home} />
+            <Route path='/' exact component={Home} />
             <Route path='/teas' component={Teas} />
             <Route path='/add-tea' component={AddTea} />
             <Route path={["/login", "/signup"]} component={Enter} />

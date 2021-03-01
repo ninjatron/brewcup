@@ -1,6 +1,5 @@
 const { validationResult } = require('express-validator');
 
-const uploadManyImages = require("../services/ImageUpload");
 const Tea = require('../models/tea');
 const User = require('../models/user');
 
@@ -51,6 +50,7 @@ const getTea = (req, res, next) => {
 
 // creates a new tea and saves it to the db
 const addTea = (req, res, next) => {
+  console.log("Add tea: ", req);
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
     const error = new Error('Validation failed.');
@@ -75,27 +75,30 @@ const addTea = (req, res, next) => {
   });
 
   tea.save()
-  .then(result => {
-    return User.findById(req.userId);
-  })
-  .then(user => {
-    owner = user;
-    user.addedProducts.push(tea);
-    return user.save();
-  })
-  .then(result => {
-    res.status(201).json({
-      message: "Added new tea",
-      tea: tea,
-      addedBy: {_id: owner._id, name: owner.username }
+    .then(res => {
+      updateTeaPhotos(req, res, next);
+    })
+    .then(result => {
+      return User.findById(req.userId);
+    })
+    .then(user => {
+      owner = user;
+      user.addedProducts.push(tea);
+      return user.save();
+    })
+    .then(result => {
+      res.status(201).json({
+        message: "Added new tea",
+        tea: tea,
+        addedBy: {_id: owner._id, name: owner.username }
+      });
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
     });
-  })
-  .catch(err => {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
-  });
 
 };
 
@@ -140,7 +143,8 @@ const updateTea = (req, res, next) => {
 };
 
 const updateTeaPhotos = (req, res, next) => {
-  if (req.files === 'undefined') {
+  console.log("Photo req: ", req.body.file);
+  if (req.body.photos === 'undefined') {
     const error = Error('No image uploaded.');
     error.statusCode = 404;
     throw error;
@@ -161,12 +165,13 @@ const updateTeaPhotos = (req, res, next) => {
       });
     }
 
-    for (let i = 0; i < req.files.size(); ++i)
-      imageLocations.push(req.files[i].location);
+    for (let i = 0; i < req.body.file.length; ++i)
+      imageLocations.push(req.body.file[i].location);
   });
 
+  console.log(imageLocations);
   const update = { photos: imageLocations };
-  Tea.findByIdAndUpdate(teaId, update)
+  Tea.findOneAndUpdate(teaId, update)
     .then(tea => {
       res.status(200).json({ 
         message: "Images uploaded", 

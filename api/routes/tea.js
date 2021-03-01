@@ -2,6 +2,7 @@ const express = require('express');
 const validator = require('express-validator');
 // get middlewares
 const authToken = require('../middlewares/authToken');
+const uploadImage = require("../services/imageUploader");
 
 const router = express.Router();
 // controllers
@@ -17,7 +18,7 @@ router.get('/tea/:teaId', teaController.getTea);
 
 // POSTS
 // create single tea
-router.post('/tea', authToken, teaController.addTea);
+router.post('/tea', [authToken, uploadImage.array('photos')], teaController.addTea);
 // PUTS
 router.put('/tea/:teaId', authToken, teaController.updateTea);
 router.put('/tea/:teaId/images', authToken, teaController.updateTeaPhotos);

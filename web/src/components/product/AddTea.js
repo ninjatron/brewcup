@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TextField from '@material-ui/core/TextField';
 import { useHistory } from 'react-router-dom'; 
 import styled from 'styled-components';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 import TeaService from "../../services/TeaService";
 
@@ -30,28 +31,55 @@ const AddTea = () => {
   };
 
   const [tea, setTea] = useState(initialTeaState);
+  const [photos, setPhoto] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const history = useHistory();
 
   const handleChange = event => {
     const { name, value } = event.target;
-    console.log(name, value);
     setTea({ ...tea, [name]: value });
   };
 
-  const saveTea = () => {
-    var data = {...tea};
+  const handleImageChange = photo => {
+    const temp = [];
+    temp.join(photos);
+    temp.push(photo);
+    setPhoto([...temp]);
+  }
 
-    TeaService.create(data)
+  const saveTea = e => {
+    e.preventDefault();
+    const formData = new FormData();
+    
+    Object.keys(tea).forEach(k => {
+      formData.append(k, tea[k]);
+    });
+
+    console.log(photos[0]);
+    photos[0].forEach(f => {
+      console.log(f);
+      formData.append("photos", f, f.name);
+    });
+
+    console.log(formData);
+    TeaService.create(formData)
       .then(response => {
         setTea({
           id: response.data.id,
           name: response.data.name,
           description: response.data.description,
+          teaType: response.data.teaType,
+          packaging: response.data.name,
+          region: response.data.region,
+          estate: response.data.estate,
+          isAvailable: false,
+          flavor: response.data.flavor,
+          leaf: response.data.leaf,
+          brewColor: response.data.brewColor,
         });
         setSubmitted(true);
         console.log(response);
-        //history.push(`/tea/${response.data.id}`);
+        // history.push(`/tea/${response.data.id}`);
       })
       .catch(e => {
         console.log(e);
@@ -138,6 +166,11 @@ const AddTea = () => {
             multiline
             variant="outlined"
             onChange={handleChange}
+          />
+          <DropzoneArea
+            acceptedFiles={['image/*']}
+            dropzoneText={"Drag and drop an image here or click"}
+            onChange={handleImageChange}
           />
           <button onClick={saveTea} className="btn btn-success">
             Submit

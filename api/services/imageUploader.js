@@ -1,13 +1,14 @@
 const aws = require("aws-sdk");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
-const s3 = new aws.S3();
 
 aws.config.update({
   secretAccessKey: process.env.S3_ACCESS_SECRET,
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
   region: "us-east-2",
 });
+
+const s3 = new aws.S3({apiVersion: '2006-03-01'});
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
@@ -22,7 +23,7 @@ const uploadImage = multer({
   storage: multerS3({
     acl: "public-read",
     s3,
-    bucket: {brewandcup},
+    bucket: "brewandcup",
     metadata: function (req, file, cb) {
       cb(null, { fieldName: "TESTING_METADATA" });
     },
@@ -32,10 +33,6 @@ const uploadImage = multer({
   }),
 });
 
-const uploadOneImage = uploadImage.single();
-const uploadManyImages = uploadImage.array();
 
-module.exports = { 
-  uploadOneImage, 
-  uploadManyImages 
-};
+
+module.exports = uploadImage;

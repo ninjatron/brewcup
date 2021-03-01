@@ -4,9 +4,14 @@ const TeaService = {
   getAll: () => get('/teas'),
   getSample: (limit) => get(`/teas/sample/${limit}`),
   single: (id) => get(`/tea/${id}`),
-  create: (body) => {
+  create: (form) => {
     const authToken = authHeader();
-    return post('/tea', body, { headers: authToken });
+    console.log(form)
+    const Header = {
+      'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
+      "Authorization": authToken,
+    };
+    return post('/tea', form, { headers: Header });
   },
   update: (id, body) => put(`/tea/${id}`, body),
   remove: (id) => destroy(`/tea/${id}`),

@@ -7,13 +7,17 @@ const dotenv = require('dotenv');
 // https://12factor.net/config
 dotenv.config();
 
+const { uploadManyImages } = require('./services/imageUploader'); 
+
 const userRoutes = require('./routes/user');
 const teaRoutes = require('./routes/tea');
 const authRoutes = require('./routes/auth');
 const reviewRoutes = require('./routes/review');
+const uploadImage = require('./services/imageUploader');
 
 const app = express();
 
+//app.use(uploadImage);
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());

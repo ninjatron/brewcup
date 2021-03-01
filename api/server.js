@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 // https://12factor.net/config
 dotenv.config();
 
-const { uploadManyImages } = require('./services/imageUploader'); 
+const uploadImages = require('./services/imageUploader'); 
 
 const userRoutes = require('./routes/user');
 const teaRoutes = require('./routes/tea');

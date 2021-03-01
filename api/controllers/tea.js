@@ -1,4 +1,7 @@
 const { validationResult } = require('express-validator');
+const uploadImage = require('../services/imageUploader');
+
+const uploadManyImages = uploadImage.array("photos");
 
 const Tea = require('../models/tea');
 const User = require('../models/user');
@@ -143,7 +146,7 @@ const updateTea = (req, res, next) => {
 };
 
 const updateTeaPhotos = (req, res, next) => {
-  console.log("Photo req: ", req.body.file);
+  console.log("Photo req: ", req.files);
   if (req.body.photos === 'undefined') {
     const error = Error('No image uploaded.');
     error.statusCode = 404;
@@ -165,8 +168,8 @@ const updateTeaPhotos = (req, res, next) => {
       });
     }
 
-    for (let i = 0; i < req.body.file.length; ++i)
-      imageLocations.push(req.body.file[i].location);
+    for (let i = 0; i < req.files.length; ++i)
+      imageLocations.push(req.files[i].location);
   });
 
   console.log(imageLocations);

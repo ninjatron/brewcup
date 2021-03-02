@@ -5,12 +5,22 @@ import { useHistory, useLocation } from "react-router-dom";
 import AuthService from "../../services/AuthService";
 import { useAppContext } from '../../context/AuthContext';
 
-const AuthFormWrapper = styled.div`
-
+const AuthPageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.8;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
-const LoginFormWrapper = styled.div`
-
+const FormWrapper = styled.div`
+  width: 300px;
+  height: 200px;
+  background-color: #fff;
+  margin: 0 auto;
+  margin-top: 20%;
 `;
 
 const Login = () => {
@@ -87,86 +97,88 @@ const Login = () => {
   };
 
   return (
-    <AuthFormWrapper>
-      {signup ? (
-        <div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="text"
-              className="form-control"
-              id="email"
-              required
-              value={user.email}
-              onChange={handleInputChange}
-              name="email"
-            />
-          </div>
+    <AuthPageWrapper>
+      <FormWrapper>
+          {signup ? (
+          <div>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="text"
+                className="form-control"
+                id="email"
+                required
+                value={user.email}
+                onChange={handleInputChange}
+                name="email"
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              className="form-control"
-              id="username"
-              required
-              value={user.username}
-              onChange={handleInputChange}
-              name="username"
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                className="form-control"
+                id="username"
+                required
+                value={user.username}
+                onChange={handleInputChange}
+                name="username"
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="text"
-              className="form-control"
-              id="password"
-              required
-              value={user.password}
-              onChange={handleInputChange}
-              name="password"
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="text"
+                className="form-control"
+                id="password"
+                required
+                value={user.password}
+                onChange={handleInputChange}
+                name="password"
+              />
+            </div>
 
-          <button onClick={signupUser} className="btn btn-success">
-            Submit
-          </button>
-        </div>          
-      ) : (
-        <div>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              className="form-control"
-              id="username"
-              required
-              value={user.username}
-              onChange={handleInputChange}
-              name="username"
-            />
-          </div>
+            <button onClick={signupUser} className="btn btn-success">
+              Submit
+            </button>
+          </div>          
+        ) : (
+          <div>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                className="form-control"
+                id="username"
+                required
+                value={user.username}
+                onChange={handleInputChange}
+                name="username"
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="text"
-              className="form-control"
-              id="password"
-              required
-              value={user.password}
-              onChange={handleInputChange}
-              name="password"
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="text"
+                className="form-control"
+                id="password"
+                required
+                value={user.password}
+                onChange={handleInputChange}
+                name="password"
+              />
+            </div>
 
-          <button onClick={loginUser} className="btn btn-success">
-            Submit
-          </button>
-        </div>
-      )}
-    </AuthFormWrapper>
+            <button onClick={loginUser} className="btn btn-success">
+              Submit
+            </button>
+          </div>
+        )}
+      </FormWrapper>
+    </AuthPageWrapper>
   );
 };
 

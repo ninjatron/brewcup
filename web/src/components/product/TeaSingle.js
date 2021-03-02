@@ -124,18 +124,6 @@ const Tea = props => {
               Publish
             </button>
           )}
-
-          <button className="badge badge-danger mr-2" onClick={deleteTutorial}>
-            Delete
-          </button>
-
-          <button
-            type="submit"
-            className="badge badge-success"
-            onClick={updateTutorial}
-          >
-            Update
-          </button>
           <p>{message}</p>
         </div>
       ) : (

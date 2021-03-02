@@ -71,6 +71,7 @@ const Login = () => {
         userHasAuthenticated(true);
         console.log("Login: ", response);
         localStorage.setItem('currentUser', JSON.stringify(response.data));
+        userHasAuthenticated(true);
         history.push("/");
       })
       .catch(e => {

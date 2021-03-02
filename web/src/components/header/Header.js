@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 // own imports
@@ -6,15 +6,21 @@ import AuthService from '../../services/AuthService';
 import Logo from './Logo';
 
 const HeaderWrapper = styled.header`
-  height: 60px,
-  width: 100%,
-  background: blue,
+  display: flex;
+  align-items: center;
+  height: 60px;
+  width: 100%;
+  margin: 0 -25px;
+  background: #464e56;
+  padding: 0 25px;
 `;
 
 const NavWrapper = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-between;
   a {
+    color: #fff;
     margin-right: 1em;
   }
 `;
@@ -29,16 +35,17 @@ const RightArea = styled.div`
 
 `;
 
-const Header = () => {
-  const [currentUser, setCurrentUser] = useState(undefined);
+const Header = (props) => {
+  //const [currentUser, setCurrentUser] = useState(false);
+  const isAuthenticated = useContext();
 
-  useEffect(() => {
-    const user = AuthService.getCurrentUser();
-
-    if (user) {
-      setCurrentUser(user);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const user = AuthService.getCurrentUser();
+  //   console.log(user);
+  //   if (user) {
+  //     setCurrentUser(user);
+  //   }
+  // }, []);
 
   return (
     <HeaderWrapper>
@@ -53,13 +60,10 @@ const Header = () => {
           </nav> 
         </LeftArea>
         <RightArea>
-          {currentUser ? (
+          {isAuthenticated ? (
               <>
-                <Link to="/home">Home</Link>
                 <Link to="/my-account">My Account</Link>
-                {/* <Button color="inherit" onClick={this.props.logout}>
-                  Logout
-                </Button> */}
+                <Link to="/" onClick={AuthService.logout}>Logout</Link>
               </>
             ) : (
               <>

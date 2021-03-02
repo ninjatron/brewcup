@@ -7,6 +7,7 @@ import { AuthContext } from '../context/AuthContext';
 import Header from '../components/header/Header';
 import Home from './Home';
 import Teas from './Teas';
+import TeaProfile from './TeaProfile';
 import Enter from './Enter';
 import AddTea from '../components/product/AddTea';
 
@@ -37,6 +38,7 @@ const App = () => {
             <Header />
             <Route path='/' exact component={Home} />
             <Route path='/teas' component={Teas} />
+            <Route path='/tea/:teaId' component={TeaProfile}></Route>
             <Route path='/add-tea' component={AddTea} />
             <Route path={["/login", "/signup"]} component={Enter} />
           </Router>  

@@ -8,10 +8,12 @@ const TeaProfileWrapper = styled.div`
 
 `;
 
-const TeaProfile = () => {
+const TeaProfile = (props) => {
   return (
     <TeaProfileWrapper>
       <TeaSingle />
     </TeaProfileWrapper>  
   )
 };
+
+export default TeaProfile;

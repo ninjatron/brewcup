@@ -1,20 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Redirect } from 'react-router-dom';
 // self components
-import { useAuthContext } from '../context/AuthContext';
+// import { useAuthContext } from '../context/AuthContext';
 import Login from '../components/auth/Login';
+import AuthService from '../services/AuthService';
 
 const EntranceWrapper = styled.div`
 
 `;
 
 const Enter = () => {
-  const { isAuthenticated } = useAuthContext();
+  const [currentUser, setCurrentUser] = useState(undefined);
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
 
   return (
     <EntranceWrapper>
-      {isAuthenticated ? (<Redirect to="/"></Redirect>) : (<Login />) }  
+      {currentUser ? (<Redirect to="/"></Redirect>) : (<Login />) }  
     </EntranceWrapper>
   );
 };

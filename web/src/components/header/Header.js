@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 // own imports
-import { useAuthContext } from '../../context/AuthContext';
+import AuthService from '../../services/AuthService';
 import Logo from './Logo';
 
 const HeaderWrapper = styled.header`
@@ -30,8 +30,16 @@ const RightArea = styled.div`
 `;
 
 const Header = () => {
-  const [ isAuthenticated ] = useEffect(useAuthContext());
-  console.log("HEADER: ", isAuthenticated);
+  const [currentUser, setCurrentUser] = useState(undefined);
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
+
   return (
     <HeaderWrapper>
       <NavWrapper>
@@ -45,7 +53,7 @@ const Header = () => {
           </nav> 
         </LeftArea>
         <RightArea>
-          {isAuthenticated ? (
+          {currentUser ? (
               <>
                 <Link to="/home">Home</Link>
                 <Link to="/my-account">My Account</Link>

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import TeaList from '../components/product/TeaList';
 
 const TeasWrapper = styled.div`
-
+  
 `;
 
 const Teas = () => {

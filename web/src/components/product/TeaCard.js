@@ -14,7 +14,7 @@ import ShareIcon from '@material-ui/icons/Share';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    maxWidth: 240,
   },
   media: {
     height: 0,

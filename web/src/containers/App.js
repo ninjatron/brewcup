@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useState } from "react";
 // import own components
-// import { AuthContext } from '../context/AuthContext';
+import { AppContext } from '../context/AuthContext';
 import AuthService from '../services/AuthService';
 import Header from '../components/header/Header';
 import Home from './Home';
@@ -36,8 +36,6 @@ const AppWrapper = styled.div`
 const App = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
-  const AppContext = createContext(null);
-  const AppContextPro = useContext(AppContext);
 
   useEffect(() => {
     onLoad();
@@ -62,16 +60,18 @@ const App = () => {
     <Fragment>
       <GlobalStyle />
       <AppWrapper>
-        <AppContextPro.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+        
           <Router>
+          <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
             <Header />
             <Route path='/' exact component={Home} />
             <Route path='/teas' component={Teas} />
             <Route path='/tea/:teaId' component={TeaProfile}></Route>
             <Route path='/add-tea' component={AddTea} />
             <Route path={["/login", "/signup"]} component={Enter} />
+        </AppContext.Provider>
+
           </Router>  
-        </AppContextPro.Provider>
       </AppWrapper>
     </Fragment>
   )

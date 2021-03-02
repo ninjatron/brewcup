@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 // own imports
+import { useAppContext } from '../../context/AuthContext';
 import AuthService from '../../services/AuthService';
 import Logo from './Logo';
 
@@ -36,16 +37,12 @@ const RightArea = styled.div`
 `;
 
 const Header = (props) => {
-  //const [currentUser, setCurrentUser] = useState(false);
-  const isAuthenticated = useContext();
-
-  // useEffect(() => {
-  //   const user = AuthService.getCurrentUser();
-  //   console.log(user);
-  //   if (user) {
-  //     setCurrentUser(user);
-  //   }
-  // }, []);
+  const { isAuthenticated, userHasAuthenticated } = useAppContext();
+  
+  const handleLogout = () => {
+    AuthService.logout();
+    userHasAuthenticated(false);
+  }
 
   return (
     <HeaderWrapper>
@@ -63,7 +60,7 @@ const Header = (props) => {
           {isAuthenticated ? (
               <>
                 <Link to="/my-account">My Account</Link>
-                <Link to="/" onClick={AuthService.logout}>Logout</Link>
+                <Link to="/" onClick={handleLogout}>Logout</Link>
               </>
             ) : (
               <>

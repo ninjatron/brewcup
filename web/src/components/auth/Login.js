@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useHistory, useLocation } from "react-router-dom";
 
 import AuthService from "../../services/AuthService";
+import { useAppContext } from '../../context/AuthContext';
 
 const AuthFormWrapper = styled.div`
 
@@ -15,6 +16,8 @@ const LoginFormWrapper = styled.div`
 const Login = () => {
   const history = useHistory();
   const location = useLocation();
+  const { userHasAuthenticated } = useAppContext();
+
   //const currUser = JSON.parse(localStorage.getItem('currentUser'));
   //console.log("Token:", currUser);
 
@@ -26,7 +29,6 @@ const Login = () => {
   };
 
   const [user, setUser] = useState(initialUserState);
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
   const signup = location.pathname === "/signup";
 
   const handleInputChange = event => {

@@ -21,7 +21,7 @@ const uploadImage = multer({
   storage: multerS3({
     //acl: 'public-read',
     s3,
-    bucket: "brewandcup/productImages",
+    bucket: "brewandcup-media/productImages",
     metadata: function (req, file, cb) {
       cb(null, { fieldName: "TESTING_METADATA" });
     },

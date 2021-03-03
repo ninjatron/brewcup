@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
 import { useHistory, useLocation } from "react-router-dom";
+import { TextField, Button } from '@material-ui/core';
 
 import AuthService from "../../services/AuthService";
 import { useAppContext } from '../../context/AuthContext';
@@ -16,11 +17,20 @@ const AuthPageWrapper = styled.div`
 `;
 
 const FormWrapper = styled.div`
-  width: 300px;
+  width: 229px;
+  padding: 25px;
   height: 200px;
   background-color: #fff;
   margin: 0 auto;
   margin-top: 20%;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0,0,0);
+  button {
+    background: red;
+    margin-top: 30px;
+  }
 `;
 
 const Login = () => {
@@ -28,21 +38,19 @@ const Login = () => {
   const location = useLocation();
   const { userHasAuthenticated } = useAppContext();
 
-  //const currUser = JSON.parse(localStorage.getItem('currentUser'));
-  //console.log("Token:", currUser);
-
   const initialUserState = {
     id: null,
     email: "",
     username: "",
-    password: "",  
+    password: "",
+    confirmPassword: "",
   };
 
   const [user, setUser] = useState(initialUserState);
   const signup = location.pathname === "/signup";
 
   const handleInputChange = event => {
-    console.log(event);
+    console.log(event.target.value);
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
@@ -78,6 +86,7 @@ const Login = () => {
       password: user.password
     };
 
+    console.log(data);
     AuthService.login(data)
       .then(response => {
         userHasAuthenticated(true);
@@ -98,86 +107,91 @@ const Login = () => {
 
   return (
     <AuthPageWrapper>
-      <FormWrapper>
-          {signup ? (
-          <div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="text"
-                className="form-control"
-                id="email"
-                required
-                value={user.email}
-                onChange={handleInputChange}
-                name="email"
-              />
-            </div>
+      {signup ? (
+        <FormWrapper>
+          <TextField
+            required
+            id="email"
+            label="E-mail"
+            name="email"
+            defaultValue=""
+            onChange={handleInputChange}
+            variant="outlined"
+            size="small"
+          />
+          <TextField
+            required
+            id="username"
+            name="username"
+            label="Username"
+            defaultValue=""
+            onChange={handleInputChange}
+            variant="outlined"
+            size="small"
+          />
+          <TextField
+            id="password"
+            label="Password"
+            type="password"
+            name="password"
+            required
+            autoComplete="current-password"
+            onChange={handleInputChange}
+            variant="outlined"
+            size="small"
+          />
+          <TextField
+            id="password-confirm"
+            label="ConfirmPassword"
+            type="password"
+            name="confirmPassword"
+            required
+            autoComplete="current-password"
+            onChange={handleInputChange}
+            variant="outlined"
+            size="small"
+          />
 
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                required
-                value={user.username}
-                onChange={handleInputChange}
-                name="username"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="text"
-                className="form-control"
-                id="password"
-                required
-                value={user.password}
-                onChange={handleInputChange}
-                name="password"
-              />
-            </div>
-
-            <button onClick={signupUser} className="btn btn-success">
-              Submit
-            </button>
-          </div>          
-        ) : (
-          <div>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                required
-                value={user.username}
-                onChange={handleInputChange}
-                name="username"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="text"
-                className="form-control"
-                id="password"
-                required
-                value={user.password}
-                onChange={handleInputChange}
-                name="password"
-              />
-            </div>
-
-            <button onClick={loginUser} className="btn btn-success">
-              Submit
-            </button>
-          </div>
+          <Button 
+            variant="contained" 
+            onClick={signupUser} 
+            size="medium" 
+            color="primary">
+            Register
+          </Button>
+        </FormWrapper>       
+      ) : (
+        <FormWrapper>
+          <TextField
+            required
+            id="username"
+            label="Username"
+            name="username"
+            defaultValue=""
+            onChange={handleInputChange}
+            variant="outlined"
+            size="small"
+          />
+          <TextField
+            id="password"
+            label="Password"
+            type="password"
+            name="password"
+            required
+            autoComplete="current-password"
+            onChange={handleInputChange}
+            variant="outlined"
+            size="small"
+          />
+          <Button
+            variant="contained" 
+            onClick={loginUser} 
+            size="medium" 
+            color="primary">
+            Login
+          </Button>
+        </FormWrapper>
         )}
-      </FormWrapper>
     </AuthPageWrapper>
   );
 };

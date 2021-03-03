@@ -20,7 +20,7 @@ router.get('/tea/:teaId', teaController.getTea);
 // create single tea
 router.post('/tea', [authToken, uploadImage.array('photos')], teaController.addTea);
 // PUTS
-router.put('/tea/:teaId', authToken, teaController.updateTea);
+router.put('/tea/:teaId', [authToken, uploadImage.array('photos')], teaController.updateTea);
 router.put('/tea/:teaId/images', authToken, teaController.updateTeaPhotos);
 // DELETE a single tea to /tea/patch
 router.delete('/tea/:teaId', authToken, teaController.deleteTea);

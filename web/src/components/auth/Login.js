@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, Link } from "react-router-dom";
 import { TextField, Button } from '@material-ui/core';
 
 import AuthService from "../../services/AuthService";
@@ -19,8 +19,10 @@ const AuthPageWrapper = styled.div`
 const FormWrapper = styled.div`
   width: 229px;
   padding: 25px;
-  height: 200px;
+  min-height: 220px;
+  height: auto;
   background-color: #fff;
+  display: grid;
   margin: 0 auto;
   margin-top: 20%;
   align-items: center;
@@ -29,7 +31,10 @@ const FormWrapper = styled.div`
   box-shadow: 0 0 5px rgba(0,0,0);
   button {
     background: red;
-    margin-top: 30px;
+    margin-top: 20px;
+  }
+  div {
+    margin-bottom: 5px;
   }
 `;
 
@@ -159,6 +164,7 @@ const Login = () => {
             color="primary">
             Register
           </Button>
+          
         </FormWrapper>       
       ) : (
         <FormWrapper>
@@ -190,6 +196,9 @@ const Login = () => {
             color="primary">
             Login
           </Button>
+
+          <Link to="/reset-password">I forgot my password.</Link>
+
         </FormWrapper>
         )}
     </AuthPageWrapper>

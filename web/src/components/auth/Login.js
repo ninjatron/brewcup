@@ -18,19 +18,18 @@ const AuthPageWrapper = styled.div`
 
 const FormWrapper = styled.div`
   width: 229px;
-  padding: 25px;
+  padding: 30px;
   min-height: 220px;
   height: auto;
   background-color: #fff;
   display: grid;
   margin: 0 auto;
-  margin-top: 20%;
+  margin-top: 10%;
   align-items: center;
   justify-content: space-around;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0,0,0);
   button {
-    background: red;
     margin-top: 20px;
   }
   div {

@@ -76,7 +76,6 @@ const TeaList = (props) => {
 
   return (
     <TeaListWrapper>
-      <h1>tea</h1>
       { teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) }
     </TeaListWrapper>
   );

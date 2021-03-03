@@ -11,12 +11,13 @@ import Teas from './Teas';
 import TeaProfile from './TeaProfile';
 import Enter from './Enter';
 import AddTea from '../components/product/AddTea';
-import tempBg from '../static/teabg-1.jpg';
+//import tempBg from '../static/teabg-2.jpeg';
+//background-image: url(${tempBg});
 
 const GlobalStyle =  createGlobalStyle`
   body {
+    font-family: 'Quicksand', sans-serif;
     margin: 0;
-    background-image: url(${tempBg});
     background-size: auto;
   }
 
@@ -27,7 +28,6 @@ const GlobalStyle =  createGlobalStyle`
 
 const AppWrapper = styled.div`
   background: #fff;
-  padding: 0 25px;
   max-width: 980px;
   margin: 0 auto;
   min-height: 100vh;
@@ -58,21 +58,19 @@ const App = () => {
 
   return (
     <Fragment>
-      <GlobalStyle />
-      <AppWrapper>
-        
-          <Router>
-          <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
-            <Header />
-            <Route path='/' exact component={Home} />
-            <Route path='/teas' component={Teas} />
-            <Route path='/tea/:teaId' component={TeaProfile}></Route>
-            <Route path='/add-tea' component={AddTea} />
-            <Route path={["/login", "/signup"]} component={Enter} />
+      <GlobalStyle />        
+      <Router>
+        <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+          <Header />
+            <AppWrapper>
+              <Route path='/' exact component={Home} />
+              <Route path='/teas' component={Teas} />
+              <Route path='/tea/:teaId' component={TeaProfile}></Route>
+              <Route path='/add-tea' component={AddTea} />
+              <Route path={["/login", "/signup"]} component={Enter} />
+            </AppWrapper>
         </AppContext.Provider>
-
-          </Router>  
-      </AppWrapper>
+      </Router>  
     </Fragment>
   )
 };

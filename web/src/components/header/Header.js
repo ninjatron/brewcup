@@ -11,29 +11,37 @@ const HeaderWrapper = styled.header`
   align-items: center;
   height: 60px;
   width: 100%;
-  margin: 0 -25px;
-  background: #464e56;
-  padding: 0 25px;
+  background: #2e3031;
 `;
 
 const NavWrapper = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
+  align-items: center;
   a {
     color: #fff;
-    margin-right: 1em;
+    margin-right: 15px;
+    &:hover {
+      color: #23e7e8;
+    }
+  }
+  nav {
+    display: flex;
+    align-items: center;
   }
 `;
 
 const LeftArea = styled.div`
   display: flex;
   font-size: 1em;
-  font-weight: bold;
+  font-weight: normal;
+  margin-left: 15px;
 `;
 
 const RightArea = styled.div`
-
+  margin-right: 5px;
+  font-weight: bold;
 `;
 
 const Header = (props) => {

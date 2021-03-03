@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -47,7 +47,7 @@ const TeaCard = (props) => {
   }
 
   return (
-    <Card className={classes.root} onClick={handleClick}>
+    <Card className={classes.root}>
       <CardHeader
         title={tea.name}
       />
@@ -68,6 +68,7 @@ const TeaCard = (props) => {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
+        <Link to={{ pathname: `${tea._id}`, state: { tea: tea }}}>Learn More</Link>
       </CardActions>
     </Card>
   );

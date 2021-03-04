@@ -11,7 +11,7 @@ const TeaProfileWrapper = styled.div`
 const TeaProfile = (props) => {
   return (
     <TeaProfileWrapper>
-      <TeaSingle props={props} />
+      <TeaSingle />
     </TeaProfileWrapper>  
   )
 };

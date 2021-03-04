@@ -12,6 +12,8 @@ const Tea = props => {
   const [currentTea, setCurrentTea] = useState(initialTeaState);
   const [message, setMessage] = useState("");
 
+  console.log(props);
+
   const getTea = id => {
     TeaService.get(id)
       .then(response => {
@@ -23,9 +25,9 @@ const Tea = props => {
       });
   };
 
-  useEffect(() => {
-    getTea(props.match.params.id);
-  }, [props.match.params.id]);
+  // useEffect(() => {
+  //   getTea(props.match.params.id);
+  // }, [props.match.params.id]);
 
   const handleInputChange = event => {
     const { name, value } = event.target;

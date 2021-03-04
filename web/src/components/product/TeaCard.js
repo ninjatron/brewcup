@@ -68,7 +68,7 @@ const TeaCard = (props) => {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        <Link to={{ pathname: `${tea._id}`, state: { tea: tea }}}>Learn More</Link>
+        <Link to={{ pathname: `/tea/${tea._id}`, state: { tea: tea }}}>Learn More</Link>
       </CardActions>
     </Card>
   );

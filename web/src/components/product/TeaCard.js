@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useHistory, Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -15,25 +16,25 @@ import ShareIcon from '@material-ui/icons/Share';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 240,
+    maxHeight: 360
   },
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
 }));
+
+const CardFooter = styled.div`
+
+  button {
+    padding: 8px;
+  }
+`;
+
+const DescWrapper = styled.div`
+  max-height: 60px;
+  overflow: hidden;
+`;
 
 const TeaCard = (props) => {
   const classes = useStyles();
@@ -57,19 +58,21 @@ const TeaCard = (props) => {
         title={tea.name}
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {tea.description}
-        </Typography>
+        <DescWrapper>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {tea.description}
+          </Typography>
+        </DescWrapper>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+      <CardFooter>
+        <IconButton size="small" aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share">
+        <IconButton size="small" aria-label="share">
           <ShareIcon />
         </IconButton>
         <Link to={{ pathname: `/tea/${tea._id}`, state: { tea: tea }}}>Learn More</Link>
-      </CardActions>
+        </CardFooter>
     </Card>
   );
 };

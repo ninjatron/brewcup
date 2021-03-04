@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import TeaCard from './TeaCard';
 
 const TeaListWrapper = styled.div`
-
+  display: flex;
 `;
 
 const TeaList = (props) => {

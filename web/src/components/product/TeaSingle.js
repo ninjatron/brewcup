@@ -25,8 +25,8 @@ const TeaGallery = styled.div`
 `;
 
 const TeaData = styled.div`
-  width: 69%;
-  margin-left: 1%;
+  width: 67%;
+  margin-left: 20px;
 `;
 
 const Tea = props => {
@@ -100,13 +100,13 @@ const Tea = props => {
           <TeaData>
             <h1>{tea.name}</h1>
             <ul>
-              {tea.teaType ? <li>Category: {tea.teaType}</li> : ''}
-              <li>Packaging: {tea.packaging}</li>
-              {tea.region ? <li>Region: ${tea.region}</li> : ''}
-              {tea.estate ? <li>Estate: {tea.estate}</li> : ''}
-              {tea.flavor ? <li>Flavor: {tea.flavor}</li> : ''}
-              {tea.leaf ? <li>Leaf: {tea.leaf}</li> : ''}
-              {tea.brewColor ? <li>Brew Color: {tea.brewColor}</li> : ''}
+              {tea.teaType ? <li><b>Category:</b> {tea.teaType}</li> : ''}
+              <li><b>Packaging:</b> {tea.packaging}</li>
+              {tea.region ? <li><b>Region:</b> {tea.region}</li> : ''}
+              {tea.estate ? <li><b>Estate:</b> {tea.estate}</li> : ''}
+              {tea.flavor ? <li><b>Flavor:</b> {tea.flavor}</li> : ''}
+              {tea.leaf ? <li><b>Leaf:</b> {tea.leaf}</li> : ''}
+              {tea.brewColor ? <li><b>Brew Color:</b> {tea.brewColor}</li> : ''}
             </ul>
             <article>
             {tea.description}

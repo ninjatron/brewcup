@@ -32,7 +32,6 @@ const TeaData = styled.div`
 const Tea = props => {
   const initialTeaState = {
     _id: null,
-    published: false,
     name: "",
     description: "", 
     teaType: "",
@@ -100,6 +99,18 @@ const Tea = props => {
           </TeaGallery>
           <TeaData>
             <h1>{tea.name}</h1>
+            <ul>
+              {tea.teaType ? <li>Category: {tea.teaType}</li> : ''}
+              <li>Packaging: {tea.packaging}</li>
+              {tea.region ? <li>Region: ${tea.region}</li> : ''}
+              {tea.estate ? <li>Estate: {tea.estate}</li> : ''}
+              {tea.flavor ? <li>Flavor: {tea.flavor}</li> : ''}
+              {tea.leaf ? <li>Leaf: {tea.leaf}</li> : ''}
+              {tea.brewColor ? <li>Brew Color: {tea.brewColor}</li> : ''}
+            </ul>
+            <article>
+            {tea.description}
+            </article>
           </TeaData>
           </TeaDetails>
         ) : (

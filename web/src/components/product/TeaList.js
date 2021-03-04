@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import TeaService from "../../services/TeaService";
 import styled from 'styled-components';
+
+import TeaService from "../../services/TeaService";
 import { Link } from "react-router-dom";
 
 import TeaCard from './TeaCard';
 
 const TeaListWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 `;
 
 const TeaList = (props) => {

@@ -6,17 +6,25 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 
+const CardWrapper = styled.div`
+  
+
+  &:hover {
+    opacity: 0.85;
+    cursor: pointer;
+  }
+`;
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 240,
-    maxHeight: 360
+    width: 230,
+    height: 300,
+    position: 'relative'
   },
   media: {
     height: 0,
@@ -24,10 +32,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const CardTop = styled.div`
+  display: flex;
+  font-family: cursive;
+  font-size: 18px;
+  align-items: center;
+  height: 30px;
+  padding: 5px 8px;
+  white-space: nowrap;
+`;
+
 const CardFooter = styled.div`
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%; 
 
   button {
     padding: 8px;
+  }
+
+  a {
+    font-size: 12px;
+    float: right;
+    font-weight: bold;
+    margin: 10px;
   }
 `;
 
@@ -48,32 +77,31 @@ const TeaCard = (props) => {
   }
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        title={tea.name}
-      />
-      <CardMedia
-        className={classes.media}
-        image={tea.photos[0]}
-        title={tea.name}
-      />
-      <CardContent>
-        <DescWrapper>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {tea.description}
-          </Typography>
-        </DescWrapper>
-      </CardContent>
-      <CardFooter>
-        <IconButton size="small" aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton size="small" aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <Link to={{ pathname: `/tea/${tea._id}`, state: { tea: tea }}}>Learn More</Link>
-        </CardFooter>
-    </Card>
+    <CardWrapper onClick={handleClick}>
+      <Card className={classes.root}>
+        <CardTop>{tea.name}</CardTop>      
+        <CardMedia
+          className={classes.media}
+          image={tea.photos[0]}
+          title={tea.name}
+        />
+        <CardContent>
+          <DescWrapper>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {tea.description}
+            </Typography>
+          </DescWrapper>
+        </CardContent>
+        <CardFooter>
+          <IconButton size="small" aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton size="small" aria-label="share">
+            <ShareIcon />
+          </IconButton>
+          </CardFooter>
+      </Card>
+    </CardWrapper>
   );
 };
 

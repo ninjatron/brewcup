@@ -101,7 +101,7 @@ const Tea = props => {
             <h1>{tea.name}</h1>
             <ul>
               {tea.teaType ? <li><b>Category:</b> {tea.teaType}</li> : ''}
-              <li><b>Packaging:</b> {tea.packaging}</li>
+              <li><b>Packaging:</b>{tea.packaging}</li>
               {tea.region ? <li><b>Region:</b> {tea.region}</li> : ''}
               {tea.estate ? <li><b>Estate:</b> {tea.estate}</li> : ''}
               {tea.flavor ? <li><b>Flavor:</b> {tea.flavor}</li> : ''}

@@ -18,7 +18,7 @@ router.get('/user/:userId/reviews', reviewController.getReview);
 // POST a review to a tea 
 router.post('/tea/:teaId/reviews', authToken, reviewController.addReview);
 // PATCH a review belonging a tea 
-router.patch('/tea/:teaId/reviews', authToken, reviewController.updateReview);
+router.put('/tea/:teaId/reviews', authToken, reviewController.updateReview);
 // DELETE a review belonging to a tea
 router.delete('/tea/:teaId/reviews', authToken, reviewController.deleteReview);
 

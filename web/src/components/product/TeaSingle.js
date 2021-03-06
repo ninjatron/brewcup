@@ -112,7 +112,12 @@ const Tea = props => {
             {tea.description}
             </article>
           </TeaData>
-          </TeaDetails>
+          <ReviewsWrapper>
+            {tea.reviews.map(
+              <h1></h1>
+            )}
+          </ReviewsWrapper>
+        </TeaDetails>
         ) : (
           <CircularProgress />
         ) 

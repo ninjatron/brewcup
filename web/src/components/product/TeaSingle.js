@@ -78,6 +78,7 @@ const Tea = props => {
   };
 
   const [ tea, setTea ] = useState(initialTeaState);
+  const [ reviews, setReviews ] = useState([{}]);
   const [ addingReview, setReviewStatus] = useState(false);
   const { teaId } = useParams();
   console.log(teaId);
@@ -98,8 +99,8 @@ const Tea = props => {
   const getTeaReviews = teaId => {
     ReviewService.getProductReviews(teaId)
       .then(response => {
-        console.log("GERT:", response);
-        setTea({...tea, reviews: response.data.reviews });
+        let newReviews = response.data.reviews;
+        setReviews(newReviews);
       })
       .catch(err => {
         console.log(err);
@@ -166,16 +167,17 @@ const Tea = props => {
             {tea.description}
             </article>
           </TeaData>
-          <ReviewsWrapper>
-            {tea.reviews.map((rev, idx) =>
-              <p key={idx}>{rev}</p>
-            )}
-          </ReviewsWrapper>
         </TeaDetails>
         ) : (
           <CircularProgress />
         ) 
       }
+      <ReviewsWrapper>
+        { reviews.map(review =>
+          <p key={review._id}>{review.content}</p>
+          )
+        }
+      </ReviewsWrapper>
       { addingReview ? (        
           <ReviewModal>
             <AddReview tea={tea} />

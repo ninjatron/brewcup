@@ -6,11 +6,19 @@ import ReviewService from '../../services/ReviewService';
 import AuthService from '../../services/AuthService';
 
 const ReviewWrapper = styled.div`
-
+  background: #fff;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  width: 460px;
+  height: 360px;
 `;
 
 const ReviewForm = styled.form`
-
+  display: block;
+  input {
+    display: block;
+  }
 `;
 
 const ReviewTea = (props) => {

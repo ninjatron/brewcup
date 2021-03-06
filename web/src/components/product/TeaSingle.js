@@ -31,7 +31,15 @@ const ReviewButton = styled.div`
 `;
 
 const ReviewModal = styled.div`
-
+  background: rgba(255,255,255, 0.9);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 const ReviewsWrapper = styled.div`

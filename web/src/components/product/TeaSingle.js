@@ -91,13 +91,15 @@ const Tea = props => {
       .catch(e => {
         console.log(e);
       });
+    
+    getTeaReviews(teaId);
   };
 
   const getTeaReviews = teaId => {
     ReviewService.getProductReviews(teaId)
       .then(response => {
-        console.log(response);
-        setTea(...tea, ...response.data.reviews);
+        console.log("GERT:", response);
+        setTea({...tea, reviews: response.data.reviews });
       })
       .catch(err => {
         console.log(err);
@@ -106,7 +108,6 @@ const Tea = props => {
 
   useEffect(() => {
     getTea(teaId);
-    getTeaReviews(teaId);
   }, [teaId]);
 
   // const handleInputChange = event => {

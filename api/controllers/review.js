@@ -23,12 +23,12 @@ const getUsersReviews = (req, res, next) => {
 
 // get all reviews belonging to a product
 const getProductReviews = (req, res, next) => {
-  const productId = req.params.productId;
-  Tea.findById(productId)
-    .then(tea => {
+  const productId = req.params.teaId;
+  Review.find({ product: productId }).sort({ _id: -1 })
+    .then(response => {
       res.status(200).json({
         message: "Product reviews",
-        reviews: tea.reviews
+        reviews: response
       });
     })
     .catch(err => {

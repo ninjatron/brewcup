@@ -59,7 +59,7 @@ const addReview = (req, res, next) => {
 
   Tea.findById(req.body.productId)
     .then(tea => {
-      return tea.reviewedBy.find(elem => elem == req.userId);
+      return tea.reviewedBy.find(elem => elem == req.body.userId);
     })
     .then(reviewedBy => {
       if (reviewedBy) {
@@ -75,14 +75,13 @@ const addReview = (req, res, next) => {
           title: req.body.title,
           content: req.body.content,
           score: req.body.score,
-          author: req.userId,
+          author: req.body.userId,
           product: req.body.productId
         });
       
-        
         newReview.save()
           .then(review => {
-            return User.findById(req.userId);
+            return User.findById(req.body.userId);
           })
           .then(user => {
             reviewer = user;
@@ -101,7 +100,7 @@ const addReview = (req, res, next) => {
             }
             teaToUpdate.reviewCount += 1;
             reviewedTea = teaToUpdate;
-            teaToUpdate.reviewedBy.push(req.userId);
+            teaToUpdate.reviewedBy.push(req.body.userId);
             teaToUpdate.reviews.push(newReview);
             return teaToUpdate.save();
           })

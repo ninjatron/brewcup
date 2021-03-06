@@ -6,7 +6,6 @@ const TeaService = {
   getSingle: (id) => get(`/tea/${id}`),
   create: (form) => {
     const authToken = authHeader();
-    console.log(form)
     const Header = {
       'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
       "Authorization": authToken,

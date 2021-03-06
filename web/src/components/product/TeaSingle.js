@@ -2,8 +2,41 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Modal from '@material-ui/core/Modal';
 
 import TeaService from "../../services/TeaService";
+import AddReview from '../review/AddReview';
+import ReviewService from '../../services/ReviewService';
+
+const TeaDataHeader = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ReviewButton = styled.div`
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  height: 28px;
+  padding: 4px 15px;
+  color: blue;
+  border: 1px solid blue;
+
+  &:hover {
+    background: blue;
+    color: #fff;
+    cursor: pointer;
+  }
+`;
+
+const ReviewModal = styled.div`
+
+`;
+
+const ReviewsWrapper = styled.div`
+  
+`;
 
 const TeaWrapper = styled.div`
 
@@ -45,12 +78,13 @@ const Tea = props => {
   };
 
   const [ tea, setTea ] = useState(initialTeaState);
+  const [ addingReview, setReviewStatus] = useState(false);
   const { teaId } = useParams();
   console.log(teaId);
   console.log(tea);
 
-  const getTea = id => {
-    TeaService.getSingle(id)
+  const getTea = teaId => {
+    TeaService.getSingle(teaId)
       .then(response => {
         setTea(response.data.tea);
       })
@@ -59,8 +93,20 @@ const Tea = props => {
       });
   };
 
+  const getTeaReviews = teaId => {
+    ReviewService.getProductReviews(teaId)
+      .then(response => {
+        console.log(response);
+        setTea(...tea, ...response.data.reviews);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   useEffect(() => {
     getTea(teaId);
+    getTeaReviews(teaId);
   }, [teaId]);
 
   // const handleInputChange = event => {
@@ -98,10 +144,17 @@ const Tea = props => {
             <img src={tea.photos[0]} />
           </TeaGallery>
           <TeaData>
-            <h1>{tea.name}</h1>
+            <TeaDataHeader>
+              <h1>{tea.name}</h1>
+              <ReviewButton onClick={() => setReviewStatus(true)}>
+                + Add Review
+              </ReviewButton>
+            </TeaDataHeader>
+            
             <ul>
               {tea.teaType ? <li><b>Category:</b> {tea.teaType}</li> : ''}
               <li><b>Packaging:</b>{tea.packaging}</li>
+              {tea.score >= 0 ? <li><b>Score:</b> {tea.score}</li> : ''}
               {tea.region ? <li><b>Region:</b> {tea.region}</li> : ''}
               {tea.estate ? <li><b>Estate:</b> {tea.estate}</li> : ''}
               {tea.flavor ? <li><b>Flavor:</b> {tea.flavor}</li> : ''}
@@ -113,13 +166,21 @@ const Tea = props => {
             </article>
           </TeaData>
           <ReviewsWrapper>
-            {tea.reviews.map(
-              <h1></h1>
+            {tea.reviews.map((rev, idx) =>
+              <p key={idx}>{rev}</p>
             )}
           </ReviewsWrapper>
         </TeaDetails>
         ) : (
           <CircularProgress />
+        ) 
+      }
+      { addingReview ? (        
+          <ReviewModal>
+            <AddReview tea={tea} />
+          </ReviewModal>
+        ) : (
+          ''
         ) 
       }
     </TeaWrapper>

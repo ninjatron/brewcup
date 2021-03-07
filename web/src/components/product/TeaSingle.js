@@ -43,6 +43,17 @@ const ReviewModal = styled.div`
   left: 0;
 `;
 
+const LoaderWrapper = styled.div`
+  position: absolute;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  top: 200px;
+  left: 0;
+`;
+
 const ReviewsWrapper = styled.div`
   
 `;
@@ -178,7 +189,7 @@ const Tea = props => {
           </TeaData>
         </TeaDetails>
         ) : (
-          <CircularProgress />
+        <LoaderWrapper><CircularProgress /></LoaderWrapper>
         ) 
       }
       { reviews.length > 0 ? <ReviewsList reviews={reviews} /> : 'Add First Review'}

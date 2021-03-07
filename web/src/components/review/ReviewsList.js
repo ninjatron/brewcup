@@ -11,11 +11,16 @@ const ReviewWrapper = styled.div`
 `;
 
 const ReviewsList = (props) => {
+  console.log(props.reviews);
   return (
     <ReviewsListWrapper>
-      <ReviewWrapper>
-
-      </ReviewWrapper>
+      { props.reviews ? 
+        (props.reviews.map(review => 
+          <ReviewWrapper>
+            
+          </ReviewWrapper>
+        )) : ('')
+      }
     </ReviewsListWrapper>
   );
 };

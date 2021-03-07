@@ -2,6 +2,7 @@ import React, { Fragment, createContext, useEffect, useContext } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useState } from "react";
+import jwtDecode from 'jwt-decode';
 // import own components
 import { AppContext } from '../context/AuthContext';
 import AuthService from '../services/AuthService';
@@ -13,6 +14,7 @@ import Enter from './Enter';
 import AddTea from '../components/product/AddTea';
 //import tempBg from '../static/teabg-2.jpeg';
 //background-image: url(${tempBg});
+
 
 const GlobalStyle =  createGlobalStyle`
   body {
@@ -44,8 +46,15 @@ const App = () => {
   async function onLoad() {
     try {
       const currUser = await AuthService.getCurrentUser();
-      if (currUser)
-        userHasAuthenticated(true);
+      if (currUser) {
+        const { exp } = jwtDecode(currUser.token);
+        const expiration = (exp * 1000) - 60000;
+        if (Date.now() >= expiration) {
+          localStorage.removeItem('currentUser');
+          userHasAuthenticated(false);
+        }
+        else userHasAuthenticated(true);
+      }
     }
     catch(e) {
       if (e !== 'No current user') {

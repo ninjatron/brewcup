@@ -6,10 +6,11 @@ import ReviewService from '../../services/ReviewService';
 import AuthService from '../../services/AuthService';
 
 const CancelButton = styled.div`
-  color: crimson;
+  color: darkred;
 
   &:hover {
     color: red;
+    font-weight: bold;
   }
 `;
 

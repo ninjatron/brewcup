@@ -27,7 +27,7 @@ const signup = (req, res, next) => {
     })
     .then(user => {
       const token = jwt.sign({ 
-        username: foundUser.username, userId: foundUser._id.toString()}, 
+        username: user.username, userId: user._id.toString()}, 
         process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES }
       );
 

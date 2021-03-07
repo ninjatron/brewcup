@@ -7,6 +7,7 @@ import Modal from '@material-ui/core/Modal';
 import TeaService from "../../services/TeaService";
 import AddReview from '../review/AddReview';
 import ReviewService from '../../services/ReviewService';
+import ReviewsList from '../review/ReviewsList';
 
 const TeaDataHeader = styled.div`
   align-items: center;
@@ -180,12 +181,7 @@ const Tea = props => {
           <CircularProgress />
         ) 
       }
-      <ReviewsWrapper>
-        { reviews.map(review =>
-          <p key={review._id}>{review.content}</p>
-          )
-        }
-      </ReviewsWrapper>
+      { reviews.length > 0 ? <ReviewsList reviews={reviews} /> : 'Add First Review'}
       { addingReview ? (        
           <ReviewModal>
             <AddReview tea={tea} />

@@ -24,7 +24,7 @@ const getUsersReviews = (req, res, next) => {
 // get all reviews belonging to a product
 const getProductReviews = (req, res, next) => {
   const productId = req.params.teaId;
-  Review.find({ product: productId }).sort({ _id: -1 })
+  Review.find({ product: productId }).sort({ createdAt: 'descending' })
     .then(response => {
       res.status(200).json({
         message: "Product reviews",
@@ -36,6 +36,7 @@ const getProductReviews = (req, res, next) => {
       next(err);
     })
 };
+
 
 // single operations
 const getReview = (req, res, next) => {

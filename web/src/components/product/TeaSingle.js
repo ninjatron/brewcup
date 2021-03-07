@@ -184,7 +184,7 @@ const Tea = props => {
       { reviews.length > 0 ? <ReviewsList reviews={reviews} /> : 'Add First Review'}
       { addingReview ? (        
           <ReviewModal>
-            <AddReview tea={tea} />
+            <AddReview showHideModal={setReviewStatus} tea={tea} />
           </ReviewModal>
         ) : (
           ''

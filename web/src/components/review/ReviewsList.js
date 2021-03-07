@@ -7,19 +7,21 @@ const ReviewsListWrapper = styled.div`
 `;
 
 const ReviewWrapper = styled.div`
-
+  padding: 15px 15px;
+  font-size: 14px;
 `;
 
 const ReviewsList = (props) => {
-  console.log(props.reviews);
   return (
     <ReviewsListWrapper>
+      <h2>Reviews</h2>
       { props.reviews ? 
         (props.reviews.map(review => 
-          <ReviewWrapper>
-            
+          <ReviewWrapper key={review._id}>
+            <b>{review.title}</b>
+            <p>{review.content}</p>
           </ReviewWrapper>
-        )) : ('')
+        )) : ('No reviews yet.')
       }
     </ReviewsListWrapper>
   );

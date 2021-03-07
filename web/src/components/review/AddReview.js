@@ -5,19 +5,68 @@ import styled from 'styled-components';
 import ReviewService from '../../services/ReviewService';
 import AuthService from '../../services/AuthService';
 
+const CancelButton = styled.div`
+  color: crimson;
+
+  &:hover {
+    color: red;
+  }
+`;
+
 const ReviewWrapper = styled.div`
   background: #fff;
   border-radius: 3px;
   border: 1px solid #ddd;
-  padding: 15px;
-  width: 460px;
-  height: 360px;
+  padding: 20px;
+  width: 480px;
+  height: 400px;
 `;
 
 const ReviewForm = styled.form`
-  display: block;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   input {
     display: block;
+    padding: 10px 14px;
+  }
+  div {
+    margin-bottom: 10px;
+  }
+  textarea {
+    height: 248px !important;
+  }
+  label {
+    transform: translate(14px, 14px) scale(1);
+  }
+`;
+
+const ReviewFooter = styled.div`
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0 !important;
+`;
+
+// consolidate this stuff common buttons etc.
+const ReviewButton = styled.div`
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  height: 28px;
+  padding: 4px 15px;
+  color: blue;
+  border: 1px solid blue;
+  margin-bottom: 0 !important;
+
+  &:hover {
+    background: blue;
+    color: #fff;
+    cursor: pointer;
   }
 `;
 
@@ -53,7 +102,7 @@ const ReviewTea = (props) => {
           content: response.data.content
         });
         console.log(response);
-        //history.push(`/tea/${response.data.product}`);
+        props.showHideModal(false);
       })
       .catch(e => {
         console.log(e);
@@ -74,10 +123,14 @@ const ReviewTea = (props) => {
           name="content"
           onChange={handleChange}
           variant="outlined"
+          multiline
         />
-        <button onClick={saveReview} className="btn btn-success">
-          Submit
-        </button>
+        <ReviewFooter>
+          <CancelButton onClick={() => props.showHideModal(false)}>Cancel</CancelButton>
+          <ReviewButton onClick={saveReview}>
+            Submit Review
+          </ReviewButton>
+        </ReviewFooter>
       </ReviewForm>
     </ReviewWrapper>
   );

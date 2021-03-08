@@ -7,14 +7,35 @@ import { DropzoneArea } from 'material-ui-dropzone';
 import TeaService from "../../services/TeaService";
 
 const AddTeaWrapper = styled.div`
+  display: table;
+  margin: 0 auto;
+  margin-top:30px;
+
   .MuiDropzoneArea-root {
-    width: 300px;
+    height: auto;
+    min-height: 100px;
+  }
+
+  .MuiTypography-h5 {
+    font-size: 12px;
+  }
+
+  .MuiGrid-spacing-xs-8 {
+    width: 100%;
+    margin: 0;
+   .MuiGrid-item {
+      padding: 10px;
+    }
+  }
+
+  .MuiDropzonePreviewList-image {
+    height: 60px;
   }
 `;
 
 const TeaForm = styled.form`
   position: relative;
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   height: 100%;
   width: 450px;
@@ -26,7 +47,7 @@ const TeaForm = styled.form`
     margin-bottom: 10px;
   }
   textarea {
-    height: 248px !important;
+    height: 160px !important;
   }
   label {
     transform: translate(14px, 14px) scale(1);
@@ -34,19 +55,33 @@ const TeaForm = styled.form`
 `;
 
 const SubmitButton = styled.div`
+  align-self: flex-end;
   display: flex;
+  background: #2e3031;
   font-weight: 600;
   align-items: center;
   height: 28px;
   padding: 4px 15px;
   color: white;
   border: 1px solid white;
-  margin-right: 20px;
 
   &:hover {
     background: #23e7e8;
     color: #fff;
     cursor: pointer;
+  }
+`;
+
+const DropzoneAreaWrapper = styled.div`
+  display: inline-grid;
+  margin-left: 30px;
+  width: 300px;
+  height: auto;
+  h3 {
+    margin-bottom: 18px;
+  }
+  p {
+    font-size: 12px;
   }
 `;
 
@@ -130,6 +165,7 @@ const AddTea = () => {
   return (
     <AddTeaWrapper>
       <TeaForm>
+        <h3>Tell Us About the Tea</h3>
         <TextField
           label="Name"
           value={tea.name}
@@ -197,11 +233,18 @@ const AddTea = () => {
         />
         <SubmitButton onClick={saveTea}>Submit Tea</SubmitButton>
       </TeaForm>
-      <DropzoneArea
-          acceptedFiles={['image/*']}
-          dropzoneText={"Drag and drop an image here or click"}
-          onChange={handleImageChange}
-      />
+      <DropzoneAreaWrapper>
+        <h3>Tea Photos</h3>
+        <DropzoneArea
+            acceptedFiles={['image/*']}
+            // Add up to 12 tea photos by dragging or clicking here:
+            dropzoneText={""}
+            onChange={handleImageChange}
+            filesLimit={12}
+            maxFileSize={2048000}
+        />
+        <p>Up to 12 images, max 2mb file size.</p>
+      </DropzoneAreaWrapper>
     </AddTeaWrapper>
   );
 };

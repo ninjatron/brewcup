@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 // own imports
 import { useAppContext } from '../../context/AuthContext';
 import AuthService from '../../services/AuthService';
@@ -12,6 +12,23 @@ const HeaderWrapper = styled.header`
   height: 60px;
   width: 100%;
   background: #2e3031;
+`;
+
+const AddTeaButton = styled.div`
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  height: 28px;
+  padding: 4px 15px;
+  color: white;
+  border: 1px solid white;
+  margin-right: 20px;
+
+  &:hover {
+    background: #23e7e8;
+    color: #fff;
+    cursor: pointer;
+  }
 `;
 
 const NavWrapper = styled.div`
@@ -40,16 +57,23 @@ const LeftArea = styled.div`
 `;
 
 const RightArea = styled.div`
+  display: flex;
+  align-items: center;
   margin-right: 5px;
   font-weight: bold;
 `;
 
 const Header = (props) => {
   const { isAuthenticated, userHasAuthenticated } = useAppContext();
-  
+  const history = useHistory();
+
   const handleLogout = () => {
     AuthService.logout();
     userHasAuthenticated(false);
+  }
+
+  const handleRedirection = address => {
+    history.push(`/${address}`);
   }
 
   return (
@@ -65,6 +89,7 @@ const Header = (props) => {
           </nav> 
         </LeftArea>
         <RightArea>
+          <AddTeaButton onClick={() => handleRedirection('add-tea')}>+ Add Tea</AddTeaButton>
           {isAuthenticated ? (
               <>
                 <Link to="/my-account">My Account</Link>

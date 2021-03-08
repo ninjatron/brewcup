@@ -9,6 +9,7 @@ const CancelButton = styled.div`
   color: darkred;
 
   &:hover {
+    cursor: pointer;
     color: red;
     font-weight: bold;
   }

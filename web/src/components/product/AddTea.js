@@ -7,11 +7,47 @@ import { DropzoneArea } from 'material-ui-dropzone';
 import TeaService from "../../services/TeaService";
 
 const AddTeaWrapper = styled.div`
-
+  .MuiDropzoneArea-root {
+    width: 300px;
+  }
 `;
 
 const TeaForm = styled.form`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 450px;
+  input {
+    display: block;
+    padding: 10px 14px;
+  }
+  div {
+    margin-bottom: 10px;
+  }
+  textarea {
+    height: 248px !important;
+  }
+  label {
+    transform: translate(14px, 14px) scale(1);
+  }
+`;
 
+const SubmitButton = styled.div`
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  height: 28px;
+  padding: 4px 15px;
+  color: white;
+  border: 1px solid white;
+  margin-right: 20px;
+
+  &:hover {
+    background: #23e7e8;
+    color: #fff;
+    cursor: pointer;
+  }
 `;
 
 const AddTea = () => {
@@ -93,90 +129,79 @@ const AddTea = () => {
 
   return (
     <AddTeaWrapper>
-      {submitted ? (
-        <div>
-          <h4>You submitted successfully!</h4>
-          <button className="btn btn-success" onClick={newTea}>
-            Add
-          </button>
-        </div>
-      ) : (
-        <TeaForm>
-          <TextField
-            label="Name"
-            value={tea.name}
-            name="name"
-            onChange={handleChange}
-            variant="outlined"
-          />
-          <TextField
-            label="Tea Type"
-            value={tea.teaType}
-            name="teaType"
-            onChange={handleChange}
-            variant="outlined"
-          />
-          <TextField
-            label="Packaging"
-            value={tea.packaging}
-            name="packaging"
-            onChange={handleChange}
-            variant="outlined"
-          />
-          <TextField
-            label="Region"
-            value={tea.region}
-            name="region"
-            onChange={handleChange}
-            variant="outlined"
-          />
-          <TextField
-            label="Estate"
-            value={tea.estate}
-            name="estate"
-            onChange={handleChange}
-            variant="outlined"
-          />
-          <TextField
-            label="Flavor"
-            value={tea.flavor}
-            name="flavor"
-            onChange={handleChange}
-            variant="outlined"
-          />
-          <TextField
-            label="Leaf"
-            value={tea.leaf}
-            name="leaf"
-            onChange={handleChange}
-            variant="outlined"
-          />
-          <TextField
-            label="Brew Color"
-            value={tea.brewColor}
-            name="brewColor"
-            onChange={handleChange}
-            variant="outlined"
-          />
-          <TextField
-            id="outlined-textarea"
-            label="Description"
-            value={tea.description}
-            name="description"
-            multiline
-            variant="outlined"
-            onChange={handleChange}
-          />
-          <DropzoneArea
-            acceptedFiles={['image/*']}
-            dropzoneText={"Drag and drop an image here or click"}
-            onChange={handleImageChange}
-          />
-          <button onClick={saveTea} className="btn btn-success">
-            Submit
-          </button>
-        </TeaForm>
-      )}
+      <TeaForm>
+        <TextField
+          label="Name"
+          value={tea.name}
+          name="name"
+          onChange={handleChange}
+          variant="outlined"
+        />
+        <TextField
+          label="Tea Type"
+          value={tea.teaType}
+          name="teaType"
+          onChange={handleChange}
+          variant="outlined"
+        />
+        <TextField
+          label="Packaging"
+          value={tea.packaging}
+          name="packaging"
+          onChange={handleChange}
+          variant="outlined"
+        />
+        <TextField
+          label="Region"
+          value={tea.region}
+          name="region"
+          onChange={handleChange}
+          variant="outlined"
+        />
+        <TextField
+          label="Estate"
+          value={tea.estate}
+          name="estate"
+          onChange={handleChange}
+          variant="outlined"
+        />
+        <TextField
+          label="Flavor"
+          value={tea.flavor}
+          name="flavor"
+          onChange={handleChange}
+          variant="outlined"
+        />
+        <TextField
+          label="Leaf"
+          value={tea.leaf}
+          name="leaf"
+          onChange={handleChange}
+          variant="outlined"
+        />
+        <TextField
+          label="Brew Color"
+          value={tea.brewColor}
+          name="brewColor"
+          onChange={handleChange}
+          variant="outlined"
+        />
+        <TextField
+          id="outlined-textarea"
+          label="Description"
+          value={tea.description}
+          name="description"
+          multiline
+          variant="outlined"
+          onChange={handleChange}
+        />
+        <SubmitButton onClick={saveTea}>Submit Tea</SubmitButton>
+      </TeaForm>
+      <DropzoneArea
+          acceptedFiles={['image/*']}
+          dropzoneText={"Drag and drop an image here or click"}
+          onChange={handleImageChange}
+      />
     </AddTeaWrapper>
   );
 };

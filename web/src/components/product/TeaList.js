@@ -12,10 +12,19 @@ const TeaListWrapper = styled.div`
   margin-top: 20px;
 `;
 
+const TeasPage = styled.div`
+
+`;
+
+const PaginationWrapper = styled.div`
+
+`;
+
 const TeaList = (props) => {
   const [teas, setTeas] = useState([]);
   const [currentTea, setCurrentTea] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isSample, setSampler] = useState(props.sampleLimit);
   // const [searchTitle, setSearchTitle] = useState("");
 
@@ -27,7 +36,7 @@ const TeaList = (props) => {
 
 
   const retrieveTeas = () => {
-    TeaService.getAll()
+    TeaService.getAll(currentPage)
       .then(response => {
         setTeas(response.data.teas);
         console.log(response.data);
@@ -79,7 +88,20 @@ const TeaList = (props) => {
 
   return (
     <TeaListWrapper>
-      { teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) }
+      { isSample ? (
+         teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) 
+        ) : (
+          <TeasPage>
+            { teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) }
+            <PaginationWrapper>
+              { [...Array(currentPage + 4)].map(pageNo => {
+                  <Link to={`/teas/${pageNo}`} />
+                })
+              }
+            </PaginationWrapper>
+          </TeasPage>
+        )
+      }
     </TeaListWrapper>
   );
 };

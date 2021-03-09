@@ -82,7 +82,7 @@ const Header = (props) => {
         <LeftArea>
           <Logo />
           <nav>
-            <Link to={"/teas"}>Teas</Link>
+            <Link to={"/teas/1"}>Teas</Link>
             <Link to={"/tea-rooms"}>Tea Rooms</Link>
             <Link to={"/reviews"}>Reviews</Link>
             <Link to={"/add"}>Community</Link>

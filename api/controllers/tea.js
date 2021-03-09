@@ -17,19 +17,22 @@ const getAllTeas = (req, res, next) => {
 };
 
 const getPaginatedTeas = (req, res, next) => {
-  // const limit = parseInt(req.params.limit);
-  // Tea.aggregate()
-  //   .sample(limit)
-  //   .then(teas => {
-  //     res.status(200).json({
-  //       message: "Teas retrieved",
-  //       teas: teas
-  //     });
-  //   })
-  //   .catch(err => {
-  //     if (!err.statusCode) err.statusCode = 500;
-  //     next(err);
-  //   });  
+  const pageNo = parseInt(req.params.pageNumber) - 1;
+  const itemCount = 2;
+  Tea.find()
+     .sort({ score: 1 })
+     .skip(pageNo > 0 ? (pageNo - 1) * itemCount : 0)
+     .limit(itemCount)
+     .then(teas => {
+      res.status(200).json({
+        message: "Teas retrieved",
+        teas: teas
+      })
+     })
+     .catch(err => {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+     });
 };
 
 const getRandomTeas = (req, res, next) => {
@@ -69,7 +72,6 @@ const getTea = (req, res, next) => {
 
 // creates a new tea and saves it to the db
 const addTea = (req, res, next) => {
-  console.log("Add tea: ", req);
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
     const error = new Error('Validation failed.');
@@ -188,7 +190,6 @@ const updateTeaPhotos = (req, res, next) => {
       imageLocations.push(req.files[i].location);
   });
 
-  console.log("Image locs:", imageLocations);
   const update = { photos: imageLocations };
   Tea.findOneAndUpdate(teaId, update)
     .then(tea => {
@@ -238,5 +239,6 @@ module.exports = {
   updateTeaPhotos,
   deleteTea,
   getAllTeas,
-  getRandomTeas
+  getRandomTeas,
+  getPaginatedTeas
 };

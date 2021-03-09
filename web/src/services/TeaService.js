@@ -1,7 +1,7 @@
 import { get, post, put, destroy, authHeader } from '../util/axios';
 
 const TeaService = {
-  getAll: () => get('/teas'),
+  getAll: (pageNumber) => get(`/teas/${pageNumber}`),
   getSample: (limit) => get(`/teas/sample/${limit}`),
   getSingle: (id) => get(`/tea/${id}`),
   create: (form) => {

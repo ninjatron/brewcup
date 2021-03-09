@@ -15,6 +15,8 @@ const CardWrapper = styled.div`
   
 
   &:hover {
+    transform: scale(1.03, 1.03);
+    transition: transform 0.2s ease-in-out;
     opacity: 0.85;
     cursor: pointer;
   }

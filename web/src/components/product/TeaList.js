@@ -13,11 +13,16 @@ const TeaListWrapper = styled.div`
 `;
 
 const TeasPage = styled.div`
-
+  width: 100%;
 `;
 
 const PaginationWrapper = styled.div`
 
+`;
+
+const TeaGrid = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const TeaList = (props) => {
@@ -35,8 +40,8 @@ const TeaList = (props) => {
   }, []);
 
 
-  const retrieveTeas = () => {
-    TeaService.getAll(currentPage)
+  const retrieveTeas = (pageNo = 1) => {
+    TeaService.getAll(pageNo)
       .then(response => {
         setTeas(response.data.teas);
         console.log(response.data);
@@ -58,8 +63,15 @@ const TeaList = (props) => {
       });
   };
 
-  const refreshList = () => {
-    retrieveTeas();
+  const getPageFeed = (e) => {
+    console.log(currentPage);
+    const pageNo = parseInt(e.target.innerText)
+    refreshList(pageNo);
+  }
+
+  const refreshList = (pageNo) => {
+    setCurrentPage(pageNo);
+    retrieveTeas(pageNo);
     setCurrentTea(null);
     setCurrentIndex(-1);
   };
@@ -92,11 +104,11 @@ const TeaList = (props) => {
          teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) 
         ) : (
           <TeasPage>
-            { teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) }
+            <TeaGrid>{ teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) }</TeaGrid>
             <PaginationWrapper>
-              { [...Array(currentPage + 4)].map(pageNo => {
-                  <Link to={`/teas/${pageNo}`} />
-                })
+              { [0,1,2,3,4].map((pageNo, idx) =>
+                  <Link onClick={getPageFeed} to={`/teas/${pageNo}`} replace>{pageNo + 1}</Link>
+                )
               }
             </PaginationWrapper>
           </TeasPage>

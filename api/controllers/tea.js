@@ -18,12 +18,13 @@ const getAllTeas = (req, res, next) => {
 
 const getPaginatedTeas = (req, res, next) => {
   const pageNo = parseInt(req.params.pageNumber) - 1;
-  const itemCount = 2;
+  const itemCount = 20;
   Tea.find()
      .sort({ score: 1 })
-     .skip(pageNo > 0 ? (pageNo - 1) * itemCount : 0)
+     .skip(pageNo * itemCount)
      .limit(itemCount)
      .then(teas => {
+      console.log(pageNo, teas);
       res.status(200).json({
         message: "Teas retrieved",
         teas: teas

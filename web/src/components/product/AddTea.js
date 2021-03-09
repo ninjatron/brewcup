@@ -126,9 +126,7 @@ const AddTea = () => {
       formData.append(k, tea[k]);
     });
 
-    console.log(photos[0]);
     photos[0].forEach(f => {
-      console.log(f);
       formData.append("photos", f, f.name);
     });
 
@@ -172,6 +170,7 @@ const AddTea = () => {
           name="name"
           onChange={handleChange}
           variant="outlined"
+          required
         />
         <TextField
           label="Tea Type"
@@ -179,6 +178,7 @@ const AddTea = () => {
           name="teaType"
           onChange={handleChange}
           variant="outlined"
+          required
         />
         <TextField
           label="Packaging"
@@ -186,6 +186,7 @@ const AddTea = () => {
           name="packaging"
           onChange={handleChange}
           variant="outlined"
+          required
         />
         <TextField
           label="Region"

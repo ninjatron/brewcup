@@ -17,19 +17,19 @@ const getAllTeas = (req, res, next) => {
 };
 
 const getPaginatedTeas = (req, res, next) => {
-    const limit = parseInt(req.params.limit);
-    Tea.aggregate()
-      .sample(limit)
-      .then(teas => {
-        res.status(200).json({
-          message: "Teas retrieved",
-          teas: teas
-        });
-      })
-      .catch(err => {
-        if (!err.statusCode) err.statusCode = 500;
-        next(err);
-      });  
+  // const limit = parseInt(req.params.limit);
+  // Tea.aggregate()
+  //   .sample(limit)
+  //   .then(teas => {
+  //     res.status(200).json({
+  //       message: "Teas retrieved",
+  //       teas: teas
+  //     });
+  //   })
+  //   .catch(err => {
+  //     if (!err.statusCode) err.statusCode = 500;
+  //     next(err);
+  //   });  
 };
 
 const getRandomTeas = (req, res, next) => {

@@ -20,8 +20,7 @@ router.get('/tea/:teaId', teaController.getTea);
 // create single tea
 router.post('/tea', [authToken, uploadImage.array('photos')], teaController.addTea);
 // PUTS
-
-// FOLLOWING MUST BE A BUG, WE DON'T WANT TO CREATE NEW IMAGES IN EVERY UPLOAD
+// TODO: FOLLOWING MUST BE A BUG, WE DON'T WANT TO CREATE NEW IMAGES IN EVERY UPLOAD
 router.put('/tea/:teaId', [authToken, uploadImage.array('photos')], teaController.updateTea);
 router.put('/tea/:teaId/images', authToken, teaController.updateTeaPhotos);
 // DELETE a single tea to /tea/patch

@@ -16,7 +16,6 @@ const getAllUsers = (req, res, next) => {
 
 // single identity operations
 const getUser = (req, res, next) => {
-  // req.data = "dummy";
   const userId = req.params.userId;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

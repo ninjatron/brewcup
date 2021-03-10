@@ -10,6 +10,7 @@ import Header from '../components/header/Header';
 import Home from './Home';
 import Teas from './Teas';
 import TeaProfile from './TeaProfile';
+import UserProfile from './UserProfile';
 import Enter from './Enter';
 import AddTea from '../components/product/AddTea';
 //import tempBg from '../static/teabg-2.jpeg';
@@ -76,6 +77,7 @@ const App = () => {
               <Route path='/teas/:pageNo' component={Teas} />
               <Route path='/tea/:teaId' component={TeaProfile}></Route>
               <Route path='/add-tea' component={AddTea} />
+              <Route path={['/user/:userId', '/my-account']} component={UserProfile} />
               <Route path={["/login", "/signup"]} component={Enter} />
             </AppWrapper>
         </AppContext.Provider>

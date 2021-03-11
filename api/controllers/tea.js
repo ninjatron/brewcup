@@ -233,34 +233,60 @@ const deleteTea = (req, res, next) => {
   });
 };
 
-const getSearchResults = (req, res, next) => {
-  console.log(req);
-  const query = req.params.query;
+const getSearchResults = async (req, res, next) => {
+  //console.log(req);
+  let searchText = req.params.query;
+  try {
+    console.log("HERE");
+    let result = await Tea.aggregate()
+                        .search({
+                          "index": "teaIndex",
+                          "autocomplete": {
+                              "query": `${searchText}`,
+                              "path": "name",
+                              "fuzzy": {
+                                  "maxEdits": 2,
+                                  "prefixLength": 3
+                              }
+                          }
+                        })
+                        .sample(7);
+    console.log(result);
+    res.status(200).json({ result });
+  } catch (e) {
+      console.log(e);
+      res.status(500).send({ message: e.message });
+  }
+  // const queryParam = req.params.query;
 
-  Teas.aggregate([
-      {
-          "$search": {
-              "autocomplete": {
-                  "query": `${query}`,
-                  "path": "name",
-                  "fuzzy": {
-                      "maxEdits": 2,
-                      "prefixLength": 3
-                  }
-              }
-          }
-      }
-    ])
-    .then(response => {
-      response.toArray();
-      res.status(200).json({
-        result: result
-      });
-    })
-    .catch(err => {
-      if (!err.statusCode) err.statusCode = 500;
-      next(err); 
-    });
+  // let rep = Tea.aggregate([
+  //   {
+  //     $search: {
+  //       index: "teaIndex",
+  //       autocomplete: {
+  //         path: 'name',
+  //         query: queryParam,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     $limit: 10,
+  //   },
+  //   {
+  //     $project: {
+  //       _id: 0,
+  //       name: "teaIndex",
+  //     },
+  //   },
+  // ])
+  // .sample(7);
+   
+    // .then(result => {
+    //   console.log('RES', result);
+
+    // })
+  //   console.log('rep:', rep);
+  // console.log('res:', rep['_pipeline']['$sample']);
 }
 
 module.exports = {

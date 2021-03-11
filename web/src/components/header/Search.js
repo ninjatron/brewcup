@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import InputBase from '@material-ui/core/InputBase';
@@ -9,12 +10,30 @@ const SearchWrapper = styled.div`
   font-size: 26px;
   font-weight: 300;
   margin-right: 25px;
+  input {
+    background: #fff;
+    color: #000;
+    padding: 8px 10px;
+  }
 `;
 
 const Search = () => {
+  const [queryResults, setQueryResults] = useState([]);
+
   const handleSearchInput = e => {
     let query = e.target.value;
-    console.log(query);  
+    console.log(query);
+    if (query.length > 3) {
+      TeaService.search(query)
+        .then(res => {
+          console.log(res);
+          setQueryResults(res);
+        })
+        .catch(err => {
+          // maybe have a better way to handle this in future
+          console.log(err);
+        });
+    }
   };
 
 

@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import InputBase from '@material-ui/core/InputBase';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import TeaService from '../../services/TeaService';
 
@@ -20,14 +21,14 @@ const SearchWrapper = styled.div`
 const Search = () => {
   const [queryResults, setQueryResults] = useState([]);
 
-  const handleSearchInput = e => {
-    let query = e.target.value;
-    console.log(query);
-    if (query.length > 3) {
+  const handleSearchInput = (e, value) => {
+    let query = value;
+    // we already look only queries with 4 char mins in backend
+    // but no reason to hit nodeserver anyway
+    if (query.length > 2) {
       TeaService.search(query)
         .then(res => {
-          console.log(res);
-          setQueryResults(res);
+          setQueryResults(res.data.result);
         })
         .catch(err => {
           // maybe have a better way to handle this in future
@@ -39,10 +40,13 @@ const Search = () => {
 
   return (
     <SearchWrapper>
-      <InputBase
-        placeholder="Search…"
-        inputProps={{ 'aria-label': 'search' }}
-        onChange={handleSearchInput}
+      <Autocomplete
+        freeSolo
+        options={queryResults.map(tea => tea.name)}
+        onInputChange={handleSearchInput}
+        renderInput={(params) => (
+          <TextField {...params} margin="normal" />
+        )}
       />
     </SearchWrapper>
   )

@@ -12,6 +12,7 @@ const TeaService = {
     };
     return post('/tea', form, { headers: Header });
   },
+  search: (query) => get(`/teas/search/${query}`),
   update: (id, body) => put(`/tea/${id}`, body),
   remove: (id) => destroy(`/tea/${id}`),
 };

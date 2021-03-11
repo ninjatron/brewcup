@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useAppContext } from '../../context/AuthContext';
 import AuthService from '../../services/AuthService';
 import Logo from './Logo';
+import Search from './Search';
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -89,6 +90,7 @@ const Header = (props) => {
           </nav> 
         </LeftArea>
         <RightArea>
+          <Search />
           <AddTeaButton onClick={() => handleRedirection('add-tea')}>+ Add Tea</AddTeaButton>
           {isAuthenticated ? (
               <>

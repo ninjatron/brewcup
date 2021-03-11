@@ -233,6 +233,36 @@ const deleteTea = (req, res, next) => {
   });
 };
 
+const getSearchResults = (req, res, next) => {
+  console.log(req);
+  const query = req.params.query;
+
+  Teas.aggregate([
+      {
+          "$search": {
+              "autocomplete": {
+                  "query": `${query}`,
+                  "path": "name",
+                  "fuzzy": {
+                      "maxEdits": 2,
+                      "prefixLength": 3
+                  }
+              }
+          }
+      }
+    ])
+    .then(response => {
+      response.toArray();
+      res.status(200).json({
+        result: result
+      });
+    })
+    .catch(err => {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err); 
+    });
+}
+
 module.exports = {
   getTea,
   addTea,
@@ -241,5 +271,6 @@ module.exports = {
   deleteTea,
   getAllTeas,
   getRandomTeas,
-  getPaginatedTeas
+  getPaginatedTeas,
+  getSearchResults
 };

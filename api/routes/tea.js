@@ -15,7 +15,8 @@ router.get('/teas/:pageNumber', teaController.getPaginatedTeas);
 router.get('/teas/sample/:limit', teaController.getRandomTeas);
 // single tea
 router.get('/tea/:teaId', teaController.getTea);
-
+// search API maybe shouldnt be here but eh
+router.get('/teas/search/:query', teaController.getSearchResults);
 // POSTS
 // create single tea
 router.post('/tea', [authToken, uploadImage.array('photos')], teaController.addTea);

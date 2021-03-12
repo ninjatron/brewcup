@@ -101,8 +101,6 @@ const Tea = props => {
   const [ reviews, setReviews ] = useState([{}]);
   const [ addingReview, setReviewStatus] = useState(false);
   const { teaId } = useParams();
-  console.log(teaId);
-  console.log(tea);
 
   const getTea = teaId => {
     TeaService.getSingle(teaId)

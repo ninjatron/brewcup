@@ -13,8 +13,8 @@ router.get('/users', userController.getAllUsers);
 
 // GET a single user from /user/get 
 router.get('/user/:userId', userController.getUser);
-// POST a single user to /user/post
-router.post('/user', userController.postUser);
+// POST a single user to /user/post -> USELESS
+// router.post('/user', userController.postUser);
 // PATCH a single user to /user/patch
 router.put('/user/:userId', [authToken, uploadImage.single('avatar')], userController.updateUser);
 // DELETE a single user to /user/delete

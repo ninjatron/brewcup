@@ -16,6 +16,7 @@ const getAllUsers = (req, res, next) => {
 
 // single identity operations
 const getUser = (req, res, next) => {
+  console.log(req);
   const userId = req.params.userId;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -24,7 +25,7 @@ const getUser = (req, res, next) => {
     next(err);
   }
 
-  User.find(userId)
+  User.findById(userId)
     .then(user => {
       res.status(200).json({
         message: 'User retrieved',
@@ -34,23 +35,25 @@ const getUser = (req, res, next) => {
     .catch(err => {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
-    })
+    });
 };
 
-const postUser = (req, res, next) => {
-  res.status(201).json({
-    user: {
-
-    }
-  })
-};
+// const postUser isn't really useful, we create in auth
 
 const updateUser = (req, res, next) => {
-  res.status(204).json({
-    user: {
-
-    }
-  })
+  console.log(req);
+  const errors = validationResult(req);
+  const userId = req.body.userId;
+  User.findById(userId)
+    .then(res => {
+      res.status(204).json({
+        user: user
+      });
+    })
+    .catch(err => {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    });  
 };
 
 const deleteUser = (req, res, next) => {
@@ -63,8 +66,7 @@ const deleteUser = (req, res, next) => {
 
 module.exports = {
   getUser,
-  postUser,
-  patchUser,
+  updateUser,
   deleteUser,
   getAllUsers
 };

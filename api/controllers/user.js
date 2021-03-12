@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
-const uploadImage = require('../services/imageUploader');
+ // const uploadImage = require('../services/imageUploader');
 
-const uploadAvatar = uploadImage.single('avatar');
+// const uploadAvatar = uploadImage.single('avatar');
 
 const Tea = require('../models/tea');
 const User = require('../models/user');
@@ -16,9 +16,10 @@ const getAllUsers = (req, res, next) => {
 
 // single identity operations
 const getUser = (req, res, next) => {
-  console.log(req);
+  // console.log(req);
   const userId = req.params.userId;
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     const error = new Error('No id provided');
     error.statusCode = 404;
@@ -26,6 +27,7 @@ const getUser = (req, res, next) => {
   }
 
   User.findById(userId)
+    .select('-password')
     .then(user => {
       res.status(200).json({
         message: 'User retrieved',
@@ -56,6 +58,12 @@ const updateUser = (req, res, next) => {
     });  
 };
 
+const uploadUserAvatar = (req, res, next) => {
+  console.log("AVATAR:", req);
+  // TODO: DELETE PREVIOUS AVATAR, THEN RETURN NEW LOCATION
+  res.status(200).json({"message": "success"})
+}
+
 const deleteUser = (req, res, next) => {
   res.status(204).json({
     user: {
@@ -68,5 +76,6 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
-  getAllUsers
+  getAllUsers,
+  uploadUserAvatar
 };

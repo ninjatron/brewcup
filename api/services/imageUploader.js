@@ -16,7 +16,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const uploadImage = multer({
+const uploadTeaPhotos = multer({
   fileFilter,
   storage: multerS3({
     //acl: 'public-read',
@@ -31,7 +31,25 @@ const uploadImage = multer({
   }),
 });
 
-module.exports = uploadImage;
+const uploadAvatar = multer({
+  fileFilter,
+  storage: multerS3({
+    //acl: 'public-read',
+    s3,
+    bucket: "brewandcup-media/avatars",
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: "TESTING_METADATA" });
+    },
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString());
+    },
+  }),
+});
+
+module.exports = {
+  uploadTeaPhotos,
+  uploadAvatar
+};
 
 // {
 //   "Version": "2012-10-17",

@@ -2,7 +2,7 @@ const express = require('express');
 const validator = require('express-validator');
 // get middlewares
 const authToken = require('../middlewares/authToken');
-const uploadImage = require("../services/imageUploader");
+const { uploadTeaPhotos } = require("../services/imageUploader");
 
 const router = express.Router();
 // controllers
@@ -19,11 +19,11 @@ router.get('/tea/:teaId', teaController.getTea);
 router.get('/teas/search/:query', teaController.getSearchResults);
 // POSTS
 // create single tea
-router.post('/tea', [authToken, uploadImage.array('photos')], teaController.addTea);
+router.post('/tea', [authToken, uploadTeaPhotos.array('photos')], teaController.addTea);
 // PUTS
 // TODO: FOLLOWING MUST BE A BUG, WE DON'T WANT TO CREATE NEW IMAGES IN EVERY UPLOAD
-router.put('/tea/:teaId', [authToken, uploadImage.array('photos')], teaController.updateTea);
-router.put('/tea/:teaId/images', authToken, teaController.updateTeaPhotos);
+router.put('/tea/:teaId', [authToken, uploadTeaPhotos.array('photos')], teaController.updateTea);
+// router.put('/tea/:teaId/images', authToken, teaController.updateTeaPhotos);
 // DELETE a single tea to /tea/patch
 router.delete('/tea/:teaId', authToken, teaController.deleteTea);
 

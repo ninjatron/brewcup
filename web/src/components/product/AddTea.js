@@ -146,7 +146,6 @@ const AddTea = () => {
           brewColor: response.data.brewColor,
         });
         setSubmitted(true);
-        console.log(response);
         if (response.data._id) {
           history.push(`/tea/${response.data._id}`);
         } else {

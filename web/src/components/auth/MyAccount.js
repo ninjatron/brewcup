@@ -90,14 +90,14 @@ const MyAccount = () => {
     addedProducts: [],
     fullname: "",
     location: "",
-    imageUrl: "",
+    avatarUrl: "",
   };
 
   const [user, setUser] = useState(initialUser);
+  const [updatedAvatar, setAvatar] = useState([]);
 
   const handleAvatarChange = avatar => {
-    console.log(avatar);
-    console.log(user);
+    setAvatar(avatar);
   }
 
   const handleChange = e => {
@@ -118,7 +118,13 @@ const MyAccount = () => {
   }
 
   const saveChanges = () => {
-
+    console.log(updatedAvatar);
+    if (updatedAvatar.length) {
+      // we have updated avatar, call backend
+      const formData = new FormData();
+      formData.append('avatar', updatedAvatar[0], updatedAvatar[0].name);
+      UserService.updateAvatar(user._id, formData);
+    }
   }
 
   useEffect(() => {

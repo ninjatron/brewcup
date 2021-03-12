@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const uploadImage = require('../services/imageUploader');
 
-const uploadManyImages = uploadImage.array("photos");
+//const uploadManyImages = uploadImage.array("photos");
 
 const Tea = require('../models/tea');
 const User = require('../models/user');
@@ -164,49 +164,49 @@ const updateTea = (req, res, next) => {
   });
 };
 
-const updateTeaPhotos = (req, res, next) => {
-  console.log("Photo req: ", req.files);
-  if (req.body.photos === 'undefined') {
-    const error = Error('No image uploaded.');
-    error.statusCode = 404;
-    throw error;
-  }
+// const updateTeaPhotos = (req, res, next) => {
+//   console.log("Photo req: ", req.files);
+//   if (req.body.photos === 'undefined') {
+//     const error = Error('No image uploaded.');
+//     error.statusCode = 404;
+//     throw error;
+//   }
 
-  const teaId = req.params.teaId;
-  const imageLocations = [];
+//   const teaId = req.params.teaId;
+//   const imageLocations = [];
 
-  uploadManyImages(req, res, function (err) {
-    if (err) {
-      return res.json({
-        success: false,
-        errors: {
-          title: "Image Upload Error",
-          detail: err.message,
-          error: err,
-        },
-      });
-    }
+//   uploadManyImages(req, res, function (err) {
+//     if (err) {
+//       return res.json({
+//         success: false,
+//         errors: {
+//           title: "Image Upload Error",
+//           detail: err.message,
+//           error: err,
+//         },
+//       });
+//     }
 
-    for (let i = 0; i < req.files.length; ++i)
-      imageLocations.push(req.files[i].location);
-  });
+//     for (let i = 0; i < req.files.length; ++i)
+//       imageLocations.push(req.files[i].location);
+//   });
 
-  const update = { photos: imageLocations };
-  Tea.findOneAndUpdate(teaId, update)
-    .then(tea => {
-      res.status(200).json({ 
-        message: "Images uploaded", 
-        tea: tea 
-      })
-    })
-    .catch(err => {
-      res.status(400).json({ 
-        message: "Tea could not be updated", 
-        error: err 
-      })
-    });
+//   const update = { photos: imageLocations };
+//   Tea.findOneAndUpdate(teaId, update)
+//     .then(tea => {
+//       res.status(200).json({ 
+//         message: "Images uploaded", 
+//         tea: tea 
+//       })
+//     })
+//     .catch(err => {
+//       res.status(400).json({ 
+//         message: "Tea could not be updated", 
+//         error: err 
+//       })
+//     });
 
-}; // end of updateTeaPhotos
+// };
 
 // deletes a tea
 const deleteTea = (req, res, next) => {
@@ -260,7 +260,7 @@ module.exports = {
   getTea,
   addTea,
   updateTea,
-  updateTeaPhotos,
+  //updateTeaPhotos,
   deleteTea,
   getAllTeas,
   getRandomTeas,

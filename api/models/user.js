@@ -37,7 +37,7 @@ const UserSchema = new Schema(
     ],
     fullname: String,
     location: String,
-    imageUrl: String,
+    avatarUrl: String,
   },
   {
     // Assigns createdAt and updatedAt fields with a Date type

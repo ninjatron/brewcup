@@ -130,7 +130,6 @@ const AddTea = () => {
       formData.append("photos", f, f.name);
     });
 
-    console.log(formData);
     TeaService.create(formData)
       .then(response => {
         setTea({
@@ -148,7 +147,11 @@ const AddTea = () => {
         });
         setSubmitted(true);
         console.log(response);
-        // history.push(`/tea/${response.data.id}`);
+        if (response.data._id) {
+          history.push(`/tea/${response.data._id}`);
+        } else {
+          // TODO: show some warning to user
+        }
       })
       .catch(e => {
         console.log(e);

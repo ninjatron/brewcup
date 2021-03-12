@@ -74,7 +74,6 @@ const TeaCard = (props) => {
   const history = useHistory();
 
   const handleClick = e => {
-    e.preventDefault();
     history.push(`/tea/${tea._id}`);
   }
 

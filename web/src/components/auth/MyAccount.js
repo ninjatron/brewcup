@@ -64,6 +64,7 @@ const DropzoneAreaWrapper = styled.div`
   margin-left: 10px;
   width: 120px;
   height: auto;
+  
   h3 {
     margin-bottom: 18px;
   }
@@ -74,6 +75,7 @@ const DropzoneAreaWrapper = styled.div`
     display: none;
   }
   .MuiDropzoneArea-root {
+    background-image: url(${props => props.avatarUrl});
     height: 120px;
     min-height: 120px;
   }
@@ -93,20 +95,22 @@ const MyAccount = () => {
 
   const [user, setUser] = useState(initialUser);
 
-  const handleAvatarChange = () => {
-
+  const handleAvatarChange = avatar => {
+    console.log(avatar);
+    console.log(user);
   }
 
   const handleChange = e => {
-    console.log(e);
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
   }
 
   const getUserData = () => {
     let user = AuthService.getCurrentUser();
-    console.log(user);
     UserService.single(user.userId)
      .then(res => {
-       console.log(res);
+       console.log(res.data.user);
+       setUser(res.data.user);
      })
      .catch(err => {
        console.log(err);
@@ -119,13 +123,13 @@ const MyAccount = () => {
 
   useEffect(() => {
     getUserData();
-  });  
+  }, [user._id]);  
 
   return (
     <MyAccountWrapper>
       <h3>My Account</h3>
       <ProfileFormWrapper>
-        <DropzoneAreaWrapper>
+        <DropzoneAreaWrapper avatarUrl={user.avatarUrl}>
           <DropzoneArea
               Icon={''}
               acceptedFiles={['image/*']}
@@ -138,20 +142,26 @@ const MyAccount = () => {
         </DropzoneAreaWrapper>
         <ProfileForm>
           <TextField
-            label="Name"
-            value={user.name}
+            label="Full Name"
+            value={user.fullname}
             name="fullname"
             onChange={handleChange}
             variant="outlined"
           />
           <TextField
-            label="Location"
+            label="E-mail"
             value={user.email}
+            name="email"
+            onChange={handleChange}
+            variant="outlined"
+          />
+          <TextField
+            label="Location"
+            value={user.location}
             name="location"
             onChange={handleChange}
             variant="outlined"
           />
-          
           <SubmitButton onClick={saveChanges}>Submit Tea</SubmitButton>
         </ProfileForm>
       </ProfileFormWrapper>

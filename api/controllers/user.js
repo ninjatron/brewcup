@@ -45,7 +45,7 @@ const postUser = (req, res, next) => {
   })
 };
 
-const putUser = (req, res, next) => {
+const updateUser = (req, res, next) => {
   res.status(204).json({
     user: {
 

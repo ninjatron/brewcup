@@ -46,23 +46,32 @@ const uploadAvatar = multer({
   }),
 });
 
+const deleteImages = (bucketId, imageIds) => {
+	let imagesToDelete = [];
+
+	imageIds.forEach(id => {
+		deleteItems.push({ Key: id });
+	});
+	
+	var params = {
+		Bucket: bucketId, 
+		Delete: {
+			Objects: deleteItems, 
+			Quiet: false
+		}
+	};
+
+	s3.deleteObjects(params, function(err, data) {
+		if (err) {
+      throw new Error(err);
+    } else {
+      console.log("Successfully deleted myBucket/myKey");
+    }
+	});
+}
+
 module.exports = {
   uploadTeaPhotos,
-  uploadAvatar
+  uploadAvatar,
+  deleteImages
 };
-
-// {
-//   "Version": "2012-10-17",
-//   "Id": "BrewAndCupS3",
-//   "Statement": [
-//       {
-//           "Sid": "Stmt1614579508185",
-//           "Effect": "Allow",
-//           "Principal": {
-//               "AWS": "arn:aws:iam::907921864465:user/brewandcupUser"
-//           },
-//           "Action": "s3:*",
-//           "Resource": "arn:aws:s3:::brewandcup/*"
-//       }
-//   ]
-// }

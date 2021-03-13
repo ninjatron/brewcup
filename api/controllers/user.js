@@ -1,7 +1,5 @@
 const { validationResult } = require('express-validator');
- // const uploadImage = require('../services/imageUploader');
-
-// const uploadAvatar = uploadImage.single('avatar');
+const deleteImages = require('../services/imageUploader');
 
 const Tea = require('../models/tea');
 const User = require('../models/user');
@@ -41,7 +39,6 @@ const getUser = (req, res, next) => {
 };
 
 // const postUser isn't really useful, we create in auth
-
 const updateUser = (req, res, next) => {
   console.log(req);
   const errors = validationResult(req);
@@ -59,9 +56,23 @@ const updateUser = (req, res, next) => {
 };
 
 const uploadUserAvatar = (req, res, next) => {
-  console.log("AVATAR:", req);
-  // TODO: DELETE PREVIOUS AVATAR, THEN RETURN NEW LOCATION
-  res.status(200).json({"message": "success"})
+  // if prev avatar exists, delete it
+  const userId = req.userId;
+  User.findById(userId)
+    .then(user => {
+      if (user.avatarUrl && user.avatarUrl.length > 0) {
+        // params bucket id, and avatar id
+        let avatarKey = user.avatarUrl.split('/').pop();
+        deleteImages('avatars', avatarKey);
+      }
+      user.avatarUrl = req.file.location;
+      user.save();
+      res.status(200);
+    })
+    .catch(err => {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    });
 }
 
 const deleteUser = (req, res, next) => {

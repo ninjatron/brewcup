@@ -85,6 +85,7 @@ const DropzoneAreaWrapper = styled.div`
 
 const MyAccount = () => {
   const initialUser = {
+    _id: "",
     email: "",
     reviews: [],
     favorites: [],
@@ -96,22 +97,23 @@ const MyAccount = () => {
 
   const [user, setUser] = useState(initialUser);
   const [updatedAvatar, setAvatar] = useState([]);
+  const [userUpdated, setUserUpdated] = useState(false);
 
   const handleAvatarChange = avatar => {
     setAvatar(avatar);
   }
 
   const handleChange = e => {
+    setUserUpdated(true);
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   }
 
   const getUserData = () => {
-    let user = AuthService.getCurrentUser();
-    UserService.single(user.userId)
+    let initUser = AuthService.getCurrentUser();
+    UserService.single(initUser.userId)
      .then(res => {
-       console.log(res.data.user);
-       setUser(res.data.user);
+       setUser({...initialUser, ...res.data.user});
      })
      .catch(err => {
        console.log(err);
@@ -119,12 +121,21 @@ const MyAccount = () => {
   }
 
   const saveChanges = () => {
-    console.log(updatedAvatar);
     if (updatedAvatar.length) {
       // we have updated avatar, call backend
       const formData = new FormData();
       formData.append('avatar', updatedAvatar[0], updatedAvatar[0].name);
       UserService.updateAvatar(user._id, formData);
+    }
+    if (userUpdated) {
+      console.log(user);
+      UserService.update(user)
+        .then(updatedUser => {
+          setUser(updatedUser);
+        })
+        .catch(err => {
+          console.log("show some feedback later");
+        })
     }
   }
 

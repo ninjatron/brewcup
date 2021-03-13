@@ -11,7 +11,6 @@ const getAllUsers = (req, res, next) => {
   });
 };
 
-
 // single identity operations
 const getUser = (req, res, next) => {
   // console.log(req);
@@ -40,20 +39,19 @@ const getUser = (req, res, next) => {
 
 // const postUser isn't really useful, we create in auth
 const updateUser = (req, res, next) => {
-  console.log(req);
   const errors = validationResult(req);
-  const userId = req.body.userId;
+  const userId = req.params.userId;
   User.findById(userId)
+    .select('-password')
     .then(user => {
-      user.email = user.email;
-      user.fullname = user.fullname;
-      user.location = user.location;
-      user.avatarUrl = user.avatarUrl;
+      user.email = req.body.email;
+      user.fullname = req.body.fullname;
+      user.location = req.body.location;
       return user.save();
     })
     .then(updatedUser => {
       res.status(204).json({
-        user: uupdatedUser
+        user: updatedUser
       });
     })
     .catch(err => {
@@ -66,6 +64,7 @@ const uploadUserAvatar = (req, res, next) => {
   // if prev avatar exists, delete it
   const userId = req.userId;
   User.findById(userId)
+    .select('-password')
     .then(user => {
       if (user.avatarUrl && user.avatarUrl.length > 0) {
         // params bucket id, and avatar id; since delete images expects

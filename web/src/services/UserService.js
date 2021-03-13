@@ -4,11 +4,13 @@ const UserService = {
   getAll: () => get('/users'),
   single: (id) => get(`/user/${id}`),
   create: (body) => post('/user', body),
-  update: (id, body) => put(`/user/${id}`, body),
+  update: (body) => {
+    console.log(body);
+    return put(`/user/${body._id}`, body, { headers: { "Authorization": authHeader() }});
+  },
   remove: (id) => destroy(`/user/${id}`),
   updateAvatar: (id, form) => {
     const authToken = authHeader();
-    console.log(form);
     const Header = {
       'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
       "Authorization": authToken,

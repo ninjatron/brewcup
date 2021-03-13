@@ -9,7 +9,6 @@ import AuthService from "../../services/AuthService";
 
 const MyAccountWrapper = styled.div`
   font-family: 'Quicksand', sans-serif;
-  font-size: 26px;
   font-weight: 300;
   margin-right: 25px;
 `;

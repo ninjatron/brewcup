@@ -26,7 +26,7 @@ const AddTeaButton = styled.div`
   margin-right: 20px;
 
   &:hover {
-    background: #23e7e8;
+    background: #bf2800;
     color: #fff;
     cursor: pointer;
   }
@@ -41,7 +41,7 @@ const NavWrapper = styled.div`
     color: #fff;
     margin-right: 15px;
     &:hover {
-      color: #23e7e8;
+      color: #fb7b2f;
     }
   }
   nav {

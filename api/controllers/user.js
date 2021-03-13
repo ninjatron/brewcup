@@ -44,9 +44,16 @@ const updateUser = (req, res, next) => {
   const errors = validationResult(req);
   const userId = req.body.userId;
   User.findById(userId)
-    .then(res => {
+    .then(user => {
+      user.email = user.email;
+      user.fullname = user.fullname;
+      user.location = user.location;
+      user.avatarUrl = user.avatarUrl;
+      return user.save();
+    })
+    .then(updatedUser => {
       res.status(204).json({
-        user: user
+        user: uupdatedUser
       });
     })
     .catch(err => {

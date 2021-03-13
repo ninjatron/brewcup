@@ -233,7 +233,7 @@ const deleteTea = (req, res, next) => {
   });
 };
 
-const getSearchResults = async (req, res, next) => {
+const getAutocompleteResults = async (req, res, next) => {
   let searchText = req.params.query;
   try {
     let result = await Tea.aggregate()
@@ -265,5 +265,5 @@ module.exports = {
   getAllTeas,
   getRandomTeas,
   getPaginatedTeas,
-  getSearchResults
+  getAutocompleteResults
 };

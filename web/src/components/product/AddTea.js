@@ -66,7 +66,7 @@ const SubmitButton = styled.div`
   border: 1px solid white;
 
   &:hover {
-    background: #23e7e8;
+    background: #bf2800;
     color: #fff;
     cursor: pointer;
   }

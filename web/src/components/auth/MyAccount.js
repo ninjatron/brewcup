@@ -53,7 +53,7 @@ const SubmitButton = styled.div`
   border: 1px solid white;
 
   &:hover {
-    background: #23e7e8;
+    background: #bf2800;
     color: #fff;
     cursor: pointer;
   }
@@ -76,6 +76,7 @@ const DropzoneAreaWrapper = styled.div`
   }
   .MuiDropzoneArea-root {
     background-image: url(${props => props.avatarUrl});
+    background-size: contain;
     height: 120px;
     min-height: 120px;
   }

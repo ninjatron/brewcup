@@ -168,7 +168,7 @@ const MyAccount = () => {
             onChange={handleChange}
             variant="outlined"
           />
-          <SubmitButton onClick={saveChanges}>Submit Tea</SubmitButton>
+          <SubmitButton onClick={saveChanges}>Update Profile</SubmitButton>
         </ProfileForm>
       </ProfileFormWrapper>
     </MyAccountWrapper>

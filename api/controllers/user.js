@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const deleteImages = require('../services/imageUploader');
+const { deleteImages } = require('../services/imageUploader');
 
 const Tea = require('../models/tea');
 const User = require('../models/user');
@@ -61,9 +61,10 @@ const uploadUserAvatar = (req, res, next) => {
   User.findById(userId)
     .then(user => {
       if (user.avatarUrl && user.avatarUrl.length > 0) {
-        // params bucket id, and avatar id
+        // params bucket id, and avatar id; since delete images expects
+        // an array for ids, we have to pass it in an array
         let avatarKey = user.avatarUrl.split('/').pop();
-        deleteImages('avatars', avatarKey);
+        deleteImages('brewandcup-media', [avatarKey]);
       }
       user.avatarUrl = req.file.location;
       user.save();

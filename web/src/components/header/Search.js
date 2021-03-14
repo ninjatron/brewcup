@@ -48,9 +48,14 @@ const Search = () => {
   };
 
   const handleKeyPress = (e, v) => {
+    // TODO
     if (e.key === 'Enter') {
       console.log("Show search results");
     }
+  }
+
+  const clearInput = () => {
+    setQueryResults([]);
   }
 
   const handleSelect = (e, v) => {
@@ -69,6 +74,7 @@ const Search = () => {
         onKeyPress={handleKeyPress}
         onChange={handleSelect}
         onInputChange={handleSearchInput}
+        onClose={clearInput}
         renderInput={(params) => (
           <TextField placeholder="Search teas..." {...params} margin="normal" />
         )}

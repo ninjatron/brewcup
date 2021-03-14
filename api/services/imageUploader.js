@@ -52,20 +52,15 @@ const deleteImages = (bucketId, imageIds) => {
 	imageIds.forEach(id => {
 		imagesToDelete.push({ Key: id });
 	});
-	
-  console.log("BUCKET ID", bucketId);
-  console.log("image Ids", imagesToDelete);
 
 	var params = {
 		Bucket: bucketId, 
 		Delete: {
 			Objects: imagesToDelete, 
-			Quiet: false
 		}
 	};
 
 	s3.deleteObjects(params, (err, data) => {
-    console.log("data:", data.Deleted);
 		if (err) {
       throw new Error(err);
     } else {

@@ -49,7 +49,6 @@ const login = (req, res, next) => {
 
   User.findOne({ username: username })
     .then(user => {
-      console.log("User: ", user);
       if (!user) {
         const error = new Error('User not found');
         error.statusCode = 401;

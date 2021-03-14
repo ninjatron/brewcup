@@ -59,7 +59,6 @@ const SubmitButton = styled.div`
 `;
 
 const DropzoneAreaWrapper = styled.div`
-  display: inline-grid;
   margin-left: 10px;
   width: 120px;
   height: auto;
@@ -75,7 +74,7 @@ const DropzoneAreaWrapper = styled.div`
   }
   .MuiDropzoneArea-root {
     background-image: url(${props => props.avatarUrl});
-    background-size: contain;
+    background-size: cover;
     height: 120px;
     min-height: 120px;
   }

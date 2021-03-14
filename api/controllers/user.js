@@ -40,6 +40,11 @@ const getUser = (req, res, next) => {
 // const postUser isn't really useful, we create in auth
 const updateUser = (req, res, next) => {
   const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error('No id provided');
+    error.statusCode = 404;
+    next(err);
+  }
   const userId = req.params.userId;
   User.findById(userId)
     .select('-password')
@@ -69,7 +74,7 @@ const uploadUserAvatar = (req, res, next) => {
       if (user.avatarUrl && user.avatarUrl.length > 0) {
         // params bucket id, and avatar id; since delete images expects
         // an array for ids, we have to pass it in an array
-        let avatarKey = user.avatarUrl.split('/').pop();
+        let avatarKey = 'avatars/' + user.avatarUrl.split('/').pop();
         deleteImages('brewandcup-media', [avatarKey]);
       }
       user.avatarUrl = req.file.location;

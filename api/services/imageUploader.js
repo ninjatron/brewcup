@@ -65,7 +65,7 @@ const deleteImages = (bucketId, imageIds) => {
 	};
 
 	s3.deleteObjects(params, (err, data) => {
-    console.log("data:", data);
+    console.log("data:", data.Deleted);
 		if (err) {
       throw new Error(err);
     } else {

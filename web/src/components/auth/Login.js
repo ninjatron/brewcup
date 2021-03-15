@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
 import { useHistory, useLocation, Link } from "react-router-dom";
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, ClickAwayListener } from '@material-ui/core';
 
 import AuthService from "../../services/AuthService";
 import { useAppContext } from '../../context/AuthContext';
@@ -14,6 +14,7 @@ const AuthPageWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1;
 `;
 
 const FormWrapper = styled.div`
@@ -29,6 +30,7 @@ const FormWrapper = styled.div`
   justify-content: space-around;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0,0,0);
+  z-index: 99;
   button {
     margin-top: 20px;
   }
@@ -105,12 +107,18 @@ const Login = () => {
 
   };
 
+  const closeOnClick = () => {
+    console.log("closed on click");
+    history.push("/");
+  }
+
   const newUser = () => {
     setUser(initialUserState);
   };
 
   return (
     <AuthPageWrapper>
+      <ClickAwayListener onClickAway={closeOnClick}>
       {signup ? (
         <FormWrapper>
           <TextField
@@ -200,6 +208,7 @@ const Login = () => {
 
         </FormWrapper>
         )}
+      </ClickAwayListener>
     </AuthPageWrapper>
   );
 };

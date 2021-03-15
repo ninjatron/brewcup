@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TextField from '@material-ui/core/TextField';
+import { TextField, ClickAwayListener } from '@material-ui/core';
 import styled from 'styled-components';
 
 import ReviewService from '../../services/ReviewService';
@@ -95,7 +95,6 @@ const ReviewTea = (props) => {
       score: 0,
     };
 
-    console.log(data);
     ReviewService.create(data)
       .then(response => {
         setReview({
@@ -111,29 +110,35 @@ const ReviewTea = (props) => {
       });
   };
 
+  const closeOnClick = () => {
+    props.showHideModal(false);
+  }
+
   return (
     <ReviewWrapper>
-      <ReviewForm>
-        <TextField
-          label="Title"
-          name="title"
-          onChange={handleChange}
-          variant="outlined"
-        />
-        <TextField
-          label="Review Content"
-          name="content"
-          onChange={handleChange}
-          variant="outlined"
-          multiline
-        />
-        <ReviewFooter>
-          <CancelButton onClick={() => props.showHideModal(false)}>Cancel</CancelButton>
-          <ReviewButton onClick={saveReview}>
-            Submit Review
-          </ReviewButton>
-        </ReviewFooter>
-      </ReviewForm>
+      <ClickAwayListener onClickAway={closeOnClick}>
+        <ReviewForm>
+          <TextField
+            label="Title"
+            name="title"
+            onChange={handleChange}
+            variant="outlined"
+          />
+          <TextField
+            label="Review Content"
+            name="content"
+            onChange={handleChange}
+            variant="outlined"
+            multiline
+          />
+          <ReviewFooter>
+            <CancelButton onClick={() => props.showHideModal(false)}>Cancel</CancelButton>
+            <ReviewButton onClick={saveReview}>
+              Submit Review
+            </ReviewButton>
+          </ReviewFooter>
+        </ReviewForm>
+      </ClickAwayListener>
     </ReviewWrapper>
   );
 };

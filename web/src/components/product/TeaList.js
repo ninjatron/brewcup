@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
+import Pagination from '@material-ui/lab/Pagination';
 
 import TeaService from "../../services/TeaService";
 import { Link } from "react-router-dom";
@@ -21,12 +22,15 @@ const PaginationWrapper = styled.div`
 `;
 
 const TeaGrid = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
 `;
 
 const TeaList = (props) => {
   const [teas, setTeas] = useState([]);
+  const [resultCount, setResultCount] = useState(0);
   const [currentTea, setCurrentTea] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,7 +48,8 @@ const TeaList = (props) => {
     TeaService.getAll(pageNo)
       .then(response => {
         setTeas(response.data.teas);
-        console.log(response.data);
+        // divide total count by items displayed on page
+        setResultCount((response.data.size / 20) + 1);
       })
       .catch(e => {
         console.log(e);
@@ -100,15 +105,16 @@ const TeaList = (props) => {
   return (
     <TeaListWrapper>
       { isSample ? (
-         teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) 
+         <TeaGrid>{teas.map((tea, idx) => <TeaCard key={tea._id} tea={tea} />)}</TeaGrid>
         ) : (
           <TeasPage>
             <TeaGrid>{ teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) }</TeaGrid>
             <PaginationWrapper>
-              { [0,1,2,3,4].map((pageNo, idx) =>
+              {/* { [0,1,2,3,4].map((pageNo, idx) =>
                   <Link key={idx} onClick={getPageFeed} to={`/teas/${pageNo}`} replace>{pageNo + 1}</Link>
                 )
-              }
+              } */}
+              <Pagination count={resultCount} page={currentPage} onChange={getPageFeed} />
             </PaginationWrapper>
           </TeasPage>
         )

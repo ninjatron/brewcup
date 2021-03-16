@@ -20,7 +20,7 @@ class Home extends Component {
         <Banner>
           <WelcomeHome>Welcome to Brew &amp; Cup, a place for tea lovers.</WelcomeHome>
         </Banner>
-        <TeaList sampleLimit={10} />
+        <TeaList sampleLimit={8} />
       </HomeWrapper>
     );
   }

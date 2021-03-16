@@ -64,7 +64,6 @@ const TeaList = (props) => {
   };
 
   const getPageFeed = (e) => {
-    console.log(currentPage);
     const pageNo = parseInt(e.target.innerText)
     refreshList(pageNo);
   }
@@ -107,7 +106,7 @@ const TeaList = (props) => {
             <TeaGrid>{ teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) }</TeaGrid>
             <PaginationWrapper>
               { [0,1,2,3,4].map((pageNo, idx) =>
-                  <Link onClick={getPageFeed} to={`/teas/${pageNo}`} replace>{pageNo + 1}</Link>
+                  <Link key={idx} onClick={getPageFeed} to={`/teas/${pageNo}`} replace>{pageNo + 1}</Link>
                 )
               }
             </PaginationWrapper>

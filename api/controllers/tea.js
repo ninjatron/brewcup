@@ -8,12 +8,34 @@ const User = require('../models/user');
 
 // collection operations
 const getAllTeas = (req, res, next) => {
-  Tea.find().then(teas => {
-    res.status(200).json({ teas: teas });
-  }).catch(err => {
-    if (!err.statusCode) err.statusCode = 500;
-    next(err);
-  });
+  const pageNo = parseInt(req.params.pageNumber) - 1;
+  const itemCount = 20;
+  let size;
+  Tea.find()
+    .estimatedDocumentCount()
+    .then(count => {
+        size = count;
+    })
+    .catch(err => {
+      // add error code later
+      next(err);
+    })
+
+  Tea.find()
+     .sort({ score: 1 })
+     .skip(pageNo * itemCount)
+     .limit(itemCount)
+     .then(teas => {
+      res.status(200).json({
+        message: "Teas retrieved",
+        teas: teas,
+        count: size
+      })
+     })
+     .catch(err => {
+        if (!err.statusCode) err.statusCode = 500;
+        next(err);
+     });
 };
 
 const getPaginatedTeas = (req, res, next) => {
@@ -24,15 +46,33 @@ const getPaginatedTeas = (req, res, next) => {
      .skip(pageNo * itemCount)
      .limit(itemCount)
      .then(teas => {
-      console.log(pageNo, teas);
       res.status(200).json({
         message: "Teas retrieved",
         teas: teas
       })
      })
      .catch(err => {
-      if (!err.statusCode) err.statusCode = 500;
-      next(err);
+        if (!err.statusCode) err.statusCode = 500;
+        next(err);
+     });
+};
+
+const getPaginatedResults = (req, res, next) => {
+  const pageNo = parseInt(req.params.pageNumber) - 1;
+  const itemCount = 20;
+  Tea.find()
+     .sort({ score: 1 })
+     .skip(pageNo * itemCount)
+     .limit(itemCount)
+     .then(teas => {
+      res.status(200).json({
+        message: "Teas retrieved",
+        teas: teas
+      })
+     })
+     .catch(err => {
+        if (!err.statusCode) err.statusCode = 500;
+        next(err);
      });
 };
 
@@ -265,5 +305,6 @@ module.exports = {
   getAllTeas,
   getRandomTeas,
   getPaginatedTeas,
-  getAutocompleteResults
+  getAutocompleteResults,
+  getPaginatedResults
 };

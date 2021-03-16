@@ -10,13 +10,14 @@ const teaController = require('../controllers/tea');
 
 // GETS
 // all teas from /teas/get
-router.get('/teas/:pageNumber', teaController.getPaginatedTeas);
+router.get('/teas/:pageNumber', teaController.getAllTeas);
 // limited sample random return
 router.get('/teas/sample/:limit', teaController.getRandomTeas);
 // single tea
 router.get('/tea/:teaId', teaController.getTea);
 // search API maybe shouldnt be here but eh
 router.get('/teas/search/:query', teaController.getAutocompleteResults);
+router.get('/teas/search/:query/:pageNumber', teaController.getPaginatedResults);
 // POSTS
 // create single tea
 router.post('/tea', [authToken, uploadTeaPhotos.array('photos')], teaController.addTea);

@@ -74,7 +74,7 @@ const App = () => {
           <Header />
             <AppWrapper>
               <Route path='/' exact component={Home} />
-              <Route path='/teas/:pageNo' component={Teas} />
+              <Route path='/teas' component={Teas} />
               <Route path='/tea/:teaId' component={TeaProfile}></Route>
               <Route path='/add-tea' component={AddTea} />
               <Route path={['/user/:userId', '/my-account']} component={UserProfile} />

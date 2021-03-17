@@ -30,9 +30,8 @@ const TeaGrid = styled.div`
 
 const TeaList = (props) => {
   const [teas, setTeas] = useState([]);
-  const [resultCount, setResultCount] = useState(0);
-  const [currentTea, setCurrentTea] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(-1);
+  let total = 0;
+  const [resultCount, setResultCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [isSample, setSampler] = useState(props.sampleLimit);
   // const [searchTitle, setSearchTitle] = useState("");
@@ -40,16 +39,17 @@ const TeaList = (props) => {
   useEffect(() => {
     if (props.sampleLimit > 0)
       retrieveSample();
-    else retrieveTeas();
-  }, []);
+    else retrieveTeas(currentPage);
+  }, [currentPage]);
 
 
-  const retrieveTeas = (pageNo = 1) => {
-    TeaService.getAll(pageNo)
+  const retrieveTeas = (curr) => {
+    TeaService.getAll(curr)
       .then(response => {
         setTeas(response.data.teas);
         // divide total count by items displayed on page
-        setResultCount((response.data.size / 20) + 1);
+        console.log(response.data)
+        setResultCount(Math.round(response.data.count / 12 + 0.5));
       })
       .catch(e => {
         console.log(e);
@@ -68,39 +68,13 @@ const TeaList = (props) => {
       });
   };
 
-  const getPageFeed = (e) => {
-    const pageNo = parseInt(e.target.innerText)
-    refreshList(pageNo);
-  }
-
-  const refreshList = (pageNo) => {
-    setCurrentPage(pageNo);
-    retrieveTeas(pageNo);
-    setCurrentTea(null);
-    setCurrentIndex(-1);
+  const refreshList = (e, value) => {
+    setCurrentPage(value);
+    retrieveTeas(value);
   };
 
-  const setActiveTea = (tea, index) => {
-    setCurrentTea(tea);
-    setCurrentIndex(index);
-  };
 
-  // in future when we have search functionality in api
-  // const findBy = () => {
-  //   TeaService.findBy(searchTitle)
-  //     .then(response => {
-  //       setTea(response.data);
-  //       console.log(response.data);
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     });
-  // };
-
-//   const onChangeSearchTitle = e => {
-//     const searchTitle = e.target.value;
-//     setSearchTitle(searchTitle);
-//   };
+  // in future when we have search functionality in api add search here
 
   return (
     <TeaListWrapper>
@@ -110,11 +84,7 @@ const TeaList = (props) => {
           <TeasPage>
             <TeaGrid>{ teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) }</TeaGrid>
             <PaginationWrapper>
-              {/* { [0,1,2,3,4].map((pageNo, idx) =>
-                  <Link key={idx} onClick={getPageFeed} to={`/teas/${pageNo}`} replace>{pageNo + 1}</Link>
-                )
-              } */}
-              <Pagination count={resultCount} page={currentPage} onChange={getPageFeed} />
+              <Pagination count={resultCount} page={currentPage} onChange={refreshList} />
             </PaginationWrapper>
           </TeasPage>
         )

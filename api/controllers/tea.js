@@ -9,7 +9,7 @@ const User = require('../models/user');
 // collection operations
 const getAllTeas = (req, res, next) => {
   const pageNo = parseInt(req.params.pageNumber) - 1;
-  const itemCount = 20;
+  const itemCount = 12;
   let size;
   Tea.find()
     .estimatedDocumentCount()

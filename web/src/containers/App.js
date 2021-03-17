@@ -7,6 +7,7 @@ import jwtDecode from 'jwt-decode';
 import { AppContext } from '../context/AuthContext';
 import AuthService from '../services/AuthService';
 import Header from '../components/header/Header';
+import Footer from '../components/footer/Footer';
 import Home from './Home';
 import Teas from './Teas';
 import TeaProfile from './TeaProfile';
@@ -80,6 +81,7 @@ const App = () => {
               <Route path={['/user/:userId', '/my-account']} component={UserProfile} />
               <Route path={["/login", "/signup"]} component={Enter} />
             </AppWrapper>
+          <Footer />
         </AppContext.Provider>
       </Router>  
     </Fragment>

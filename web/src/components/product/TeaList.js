@@ -18,7 +18,9 @@ const TeasPage = styled.div`
 `;
 
 const PaginationWrapper = styled.div`
-
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 `;
 
 const TeaGrid = styled.div`
@@ -31,7 +33,7 @@ const TeaGrid = styled.div`
 const TeaList = (props) => {
   const [teas, setTeas] = useState([]);
   let total = 0;
-  const [resultCount, setResultCount] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [isSample, setSampler] = useState(props.sampleLimit);
   // const [searchTitle, setSearchTitle] = useState("");
@@ -48,8 +50,9 @@ const TeaList = (props) => {
       .then(response => {
         setTeas(response.data.teas);
         // divide total count by items displayed on page
-        console.log(response.data)
-        setResultCount(Math.round(response.data.count / 12 + 0.5));
+        console.log(response.data);
+        console.log("math", Math.round(response.data.count / 12 + 0.5));
+        setPageCount(Math.round(response.data.count / 12 + 0.5));
       })
       .catch(e => {
         console.log(e);
@@ -69,6 +72,7 @@ const TeaList = (props) => {
   };
 
   const refreshList = (e, value) => {
+    console.log(value);
     setCurrentPage(value);
     retrieveTeas(value);
   };
@@ -84,7 +88,7 @@ const TeaList = (props) => {
           <TeasPage>
             <TeaGrid>{ teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) }</TeaGrid>
             <PaginationWrapper>
-              <Pagination count={resultCount} page={currentPage} onChange={refreshList} />
+              <Pagination count={pageCount} page={currentPage} onChange={refreshList} />
             </PaginationWrapper>
           </TeasPage>
         )

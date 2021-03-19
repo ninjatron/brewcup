@@ -54,17 +54,25 @@ const LoaderWrapper = styled.div`
   left: 0;
 `;
 
+const CommunityActivityWrapper = styled.div`
+  
+`
+
 const ReviewsWrapper = styled.div`
   margin-top: 40px;
+  width: 66%;
 `;
 
 const TeaWrapper = styled.div`
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - 120px);
 `;
 
 const TeaDetails = styled.div`
   display: flex;
   justify-content: space-between;
+  background: linear-gradient( 
+    -22deg
+     , #f3d16f, #a35be4);
 `;
 
 const TeaGallery = styled.div`
@@ -80,6 +88,7 @@ const TeaGallery = styled.div`
 const TeaData = styled.div`
   width: 67%;
   margin-left: 20px;
+  padding-right: 30px;
 `;
 
 const Tea = props => {
@@ -190,17 +199,19 @@ const Tea = props => {
         <LoaderWrapper><CircularProgress /></LoaderWrapper>
         ) 
       }
-      <ReviewsWrapper>
-        { reviews.length > 0 ? <ReviewsList reviews={reviews} /> : <h3>No reviews yet</h3> }
-      </ReviewsWrapper>
-      { addingReview ? (        
-          <ReviewModal>
-            <AddReview showHideModal={setReviewStatus} tea={tea} />
-          </ReviewModal>
-        ) : (
-          ''
-        ) 
-      }
+      <CommunityActivityWrapper>
+        <ReviewsWrapper>
+          { reviews.length > 0 ? <ReviewsList reviews={reviews} /> : <h3>No reviews yet</h3> }
+        </ReviewsWrapper>
+        { addingReview ? (        
+            <ReviewModal>
+              <AddReview showHideModal={setReviewStatus} tea={tea} />
+            </ReviewModal>
+          ) : (
+            ''
+          ) 
+        }
+      </CommunityActivityWrapper>
     </TeaWrapper>
   );
 };

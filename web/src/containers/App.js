@@ -20,7 +20,9 @@ import AddTea from '../components/product/AddTea';
 
 const GlobalStyle =  createGlobalStyle`
   body {
-    font-family: 'Quicksand', sans-serif;
+    /*font-family: 'Quicksand', sans-serif;*/
+    font-family: system-ui;
+    font-size: 15px;
     margin: 0;
     background-size: auto;
   }
@@ -34,7 +36,7 @@ const AppWrapper = styled.div`
   background: #fff;
   max-width: 980px;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: calc(100vh - 210px);
 `;
 
 const App = () => {

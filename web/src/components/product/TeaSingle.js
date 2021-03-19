@@ -55,7 +55,7 @@ const LoaderWrapper = styled.div`
 `;
 
 const ReviewsWrapper = styled.div`
-  margin-top: 30px;
+  margin-top: 40px;
 `;
 
 const TeaWrapper = styled.div`
@@ -191,7 +191,7 @@ const Tea = props => {
         ) 
       }
       <ReviewsWrapper>
-        { reviews.length > 0 ? <ReviewsList reviews={reviews} /> : 'No reviews yet' }
+        { reviews.length > 0 ? <ReviewsList reviews={reviews} /> : <h3>No reviews yet</h3> }
       </ReviewsWrapper>
       { addingReview ? (        
           <ReviewModal>

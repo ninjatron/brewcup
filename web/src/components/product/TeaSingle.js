@@ -55,11 +55,11 @@ const LoaderWrapper = styled.div`
 `;
 
 const ReviewsWrapper = styled.div`
-  
+  margin-top: 30px;
 `;
 
 const TeaWrapper = styled.div`
-
+  min-height: calc(100vh - 60px);
 `;
 
 const TeaDetails = styled.div`
@@ -190,7 +190,9 @@ const Tea = props => {
         <LoaderWrapper><CircularProgress /></LoaderWrapper>
         ) 
       }
-      { reviews.length > 0 ? <ReviewsList reviews={reviews} /> : 'Add First Review'}
+      <ReviewsWrapper>
+        { reviews.length > 0 ? <ReviewsList reviews={reviews} /> : 'No reviews yet' }
+      </ReviewsWrapper>
       { addingReview ? (        
           <ReviewModal>
             <AddReview showHideModal={setReviewStatus} tea={tea} />

@@ -275,7 +275,7 @@ const deleteTea = (req, res, next) => {
 
 const toggleFavorite = (req, res, next) => {
   const teaId = req.params.teaId;
-  const userId = req.params.userId;
+  const userId = req.body.userId;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = new Error("Tea favorite validation failed.");

@@ -1,17 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+
 import TeaService from '../../services/TeaService';
-import Tea from './TeaSingle';
 
 const CardWrapper = styled.div`
   
@@ -21,6 +20,10 @@ const CardWrapper = styled.div`
     transition: transform 0.2s ease-in-out;
     opacity: 0.85;
     cursor: pointer;
+  }
+
+  .favorite {
+    fill: red;
   }
 `;
 
@@ -74,11 +77,13 @@ const TeaCard = (props) => {
   // const [expanded, setExpanded] = React.useState(false);
   const tea = props.tea;
   const history = useHistory();
+  const [isFavorite, setFavorite] = useState(tea.isFavorite ? true : false);
 
   const toggleFavorite = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    TeaService.toggleFavorite(tea._id);
+    TeaService.toggleFavorite(tea._id, props.userId);
+    setFavorite(!tea.isFavorite);
   }
 
   const handleClick = e => {
@@ -102,9 +107,8 @@ const TeaCard = (props) => {
           </DescWrapper>
         </CardContent>
         <CardFooter>
-          <IconButton className={tea.userFavorite ? 'favorite' : ''} 
-            onClick={toggleFavorite} size="small" aria-label="add to favorites">
-            <FavoriteIcon />
+          <IconButton onClick={toggleFavorite} size="small" aria-label="add to favorites">
+            <FavoriteIcon className={isFavorite ? 'favorite' : '' } />
           </IconButton>
           <IconButton size="small" aria-label="share">
             <ShareIcon />

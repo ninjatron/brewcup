@@ -42,6 +42,7 @@ const AppWrapper = styled.div`
 const App = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     onLoad();
@@ -51,6 +52,7 @@ const App = () => {
     try {
       const currUser = await AuthService.getCurrentUser();
       if (currUser) {
+        setUser({...currUser});
         const { exp } = jwtDecode(currUser.token);
         const expiration = (exp * 1000) - 60000;
         console.log(currUser);
@@ -74,7 +76,7 @@ const App = () => {
     <Fragment>
       <GlobalStyle />        
       <Router>
-        <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+        <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, user }}>
           <Header />
             <AppWrapper>
               <Route path='/' exact component={Home} />

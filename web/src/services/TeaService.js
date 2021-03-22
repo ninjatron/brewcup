@@ -15,9 +15,9 @@ const TeaService = {
   search: (query) => get(`/teas/search/${query}`),
   update: (id, body) => put(`/tea/${id}`, body),
   remove: (id) => destroy(`/tea/${id}`),
-  toggleFavorite: (id) => {
-    console.log(id);
-    put(`/tea/${id}/favorite`, {}, {  headers: { "Authorization": authHeader() } })
+  toggleFavorite: (id, userId) => {
+    console.log(userId)
+    put(`/tea/${id}/favorite`, { userId: userId }, {  headers: { "Authorization": authHeader() } })
   }
 };
 

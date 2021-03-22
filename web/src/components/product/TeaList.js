@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Pagination from '@material-ui/lab/Pagination';
 
 import TeaService from "../../services/TeaService";
-import { Link } from "react-router-dom";
+import { useAppContext } from '../../context/AuthContext';
 
 import TeaCard from './TeaCard';
 
@@ -33,6 +33,8 @@ const TeaGrid = styled.div`
 const TeaList = (props) => {
   const [teas, setTeas] = useState([]);
   let total = 0;
+  const { user } = useAppContext();
+  console.log("app", user);
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [isSample, setSampler] = useState(props.sampleLimit);
@@ -83,10 +85,10 @@ const TeaList = (props) => {
   return (
     <TeaListWrapper>
       { isSample ? (
-         <TeaGrid>{teas.map((tea, idx) => <TeaCard key={tea._id} tea={tea} />)}</TeaGrid>
+         <TeaGrid>{teas.map((tea, idx) => <TeaCard userId={user.userId} key={tea._id} tea={tea} />)}</TeaGrid>
         ) : (
           <TeasPage>
-            <TeaGrid>{ teas.map((tea) => <TeaCard key={tea._id} tea={tea} />) }</TeaGrid>
+            <TeaGrid>{ teas.map((tea) => <TeaCard userId={user.userId} key={tea._id} tea={tea} />) }</TeaGrid>
             <PaginationWrapper>
               <Pagination count={pageCount} page={currentPage} onChange={refreshList} />
             </PaginationWrapper>

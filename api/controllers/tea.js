@@ -273,6 +273,41 @@ const deleteTea = (req, res, next) => {
   });
 };
 
+const toggleFavorite = (req, res, next) => {
+  const teaId = req.body.teaId;
+  const userId = req.params.userId;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error("Tea favorite validation failed.");
+    error.statusCode = 422;
+    throw error;
+  }
+
+
+  Tea.findById(teaId)
+    .then(tea => {
+      if (tea.favoritedBy.indexOf(userId) >= 0) {
+        // user already favorited tea, so this is unfavorite
+        tea.favoritedBy.pull({ _id: userId });
+        tea.favoriteCount -= 1;
+      } else {
+        // user favorited tea
+        tea.favoritedBy.push(userId);
+        tea.favoriteCount -= 1;        
+      }
+      return tea.save();
+    })
+    .then(updatedTea => {
+      res.status(200).json({
+        tea: updatedTea
+      })
+    })
+    .catch(err => {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    }); 
+};
+
 const getAutocompleteResults = async (req, res, next) => {
   let searchText = req.params.query;
   try {
@@ -306,5 +341,6 @@ module.exports = {
   getRandomTeas,
   getPaginatedTeas,
   getAutocompleteResults,
-  getPaginatedResults
+  getPaginatedResults,
+  toggleFavorite
 };

@@ -127,6 +127,7 @@ const Tea = props => {
     ReviewService.getProductReviews(teaId)
       .then(response => {
         let newReviews = response.data.reviews;
+        console.log(newReviews)
         setReviews(newReviews);
       })
       .catch(err => {

@@ -25,6 +25,7 @@ router.post('/tea', [authToken, uploadTeaPhotos.array('photos')], teaController.
 // TODO: FOLLOWING MUST BE A BUG, WE DON'T WANT TO CREATE NEW IMAGES IN EVERY UPLOAD
 router.put('/tea/:teaId', [authToken, uploadTeaPhotos.array('photos')], teaController.updateTea);
 // router.put('/tea/:teaId/images', authToken, teaController.updateTeaPhotos);
+router.put('/tea/:teaId/favorite', authToken, teaController.toggleFavorite);
 // DELETE a single tea to /tea/patch
 router.delete('/tea/:teaId', authToken, teaController.deleteTea);
 

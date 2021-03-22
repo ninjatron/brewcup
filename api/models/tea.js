@@ -74,6 +74,10 @@ const TeaSchema = new Schema(
     scoredBy: {
       type: Number,
       default: 0
+    },
+    favoriteCount: {
+      type: Number,
+      default: 0
     }
   },
   {

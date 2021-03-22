@@ -15,6 +15,7 @@ const TeaService = {
   search: (query) => get(`/teas/search/${query}`),
   update: (id, body) => put(`/tea/${id}`, body),
   remove: (id) => destroy(`/tea/${id}`),
+  toggleFavorite: (id) => put(`/tea/${id}/favorite`, { headers: { "Authorization": authHeader()} })
 };
 
 export default TeaService;

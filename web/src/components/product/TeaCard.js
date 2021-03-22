@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import TeaService from '../../services/TeaService';
 
 const CardWrapper = styled.div`
   
@@ -94,7 +95,7 @@ const TeaCard = (props) => {
           </DescWrapper>
         </CardContent>
         <CardFooter>
-          <IconButton size="small" aria-label="add to favorites">
+          <IconButton onClick={toggleFavorite} size="small" aria-label="add to favorites">
             <FavoriteIcon />
           </IconButton>
           <IconButton size="small" aria-label="share">

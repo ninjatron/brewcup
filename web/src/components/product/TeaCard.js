@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import TeaService from '../../services/TeaService';
+import Tea from './TeaSingle';
 
 const CardWrapper = styled.div`
   
@@ -74,6 +75,12 @@ const TeaCard = (props) => {
   const tea = props.tea;
   const history = useHistory();
 
+  const toggleFavorite = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    TeaService.toggleFavorite(tea._id);
+  }
+
   const handleClick = e => {
     history.push(`/tea/${tea._id}`);
   }
@@ -95,7 +102,8 @@ const TeaCard = (props) => {
           </DescWrapper>
         </CardContent>
         <CardFooter>
-          <IconButton onClick={toggleFavorite} size="small" aria-label="add to favorites">
+          <IconButton className={tea.userFavorite ? 'favorite' : ''} 
+            onClick={toggleFavorite} size="small" aria-label="add to favorites">
             <FavoriteIcon />
           </IconButton>
           <IconButton size="small" aria-label="share">

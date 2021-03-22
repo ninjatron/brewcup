@@ -274,7 +274,7 @@ const deleteTea = (req, res, next) => {
 };
 
 const toggleFavorite = (req, res, next) => {
-  const teaId = req.body.teaId;
+  const teaId = req.params.teaId;
   const userId = req.params.userId;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -283,16 +283,18 @@ const toggleFavorite = (req, res, next) => {
     throw error;
   }
 
+  console.log("Favorite:", userId);
 
   Tea.findById(teaId)
     .then(tea => {
+      console.log("Tea", tea);
       if (tea.favoritedBy.indexOf(userId) >= 0) {
         // user already favorited tea, so this is unfavorite
         tea.favoritedBy.pull({ _id: userId });
         tea.favoriteCount -= 1;
       } else {
         // user favorited tea
-        tea.favoritedBy.push(userId);
+        tea.favoritedBy.push({ _id: userId });
         tea.favoriteCount -= 1;        
       }
       return tea.save();

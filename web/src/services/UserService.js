@@ -5,7 +5,6 @@ const UserService = {
   single: (id) => get(`/user/${id}`),
   create: (body) => post('/user', body),
   update: (body) => {
-    console.log(body);
     return put(`/user/${body._id}`, body, { headers: { "Authorization": authHeader() }});
   },
   remove: (id) => destroy(`/user/${id}`),

@@ -23,7 +23,7 @@ const ProfileForm = styled.form`
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 450px;
+  width: 100%;
   margin-left: 30px;
   input {
     display: block;

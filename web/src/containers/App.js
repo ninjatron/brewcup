@@ -55,7 +55,6 @@ const App = () => {
         setUser({...currUser});
         const { exp } = jwtDecode(currUser.token);
         const expiration = (exp * 1000) - 60000;
-        console.log(currUser);
         if (Date.now() >= expiration) {
           localStorage.removeItem('currentUser');
           userHasAuthenticated(false);

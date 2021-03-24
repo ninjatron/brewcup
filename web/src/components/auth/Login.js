@@ -56,7 +56,6 @@ const Login = () => {
   const signup = location.pathname === "/signup";
 
   const handleInputChange = event => {
-    console.log(event.target.value);
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };

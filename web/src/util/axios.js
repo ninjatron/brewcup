@@ -5,9 +5,9 @@ const api = axios.create({
 });
 
 const authHeader = () => {
-  const user = JSON.parse(localStorage.getItem('currentUser'));
-  if (user && user.token) {
-    return 'Bearer ' + user.token;
+  const { token } = JSON.parse(localStorage.getItem('currentUser'));
+  if (token) {
+    return 'Bearer ' + token;
   } else {
     return "";
   }

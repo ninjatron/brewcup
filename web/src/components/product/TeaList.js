@@ -33,6 +33,7 @@ const TeaGrid = styled.div`
 const TeaList = (props) => {
   const [teas, setTeas] = useState([]);
   let total = 0;
+  // TODO: fix this; ugly to use user.user._id
   const { user } = useAppContext();
   console.log("app", user);
   const [pageCount, setPageCount] = useState(1);
@@ -52,8 +53,6 @@ const TeaList = (props) => {
       .then(response => {
         setTeas(response.data.teas);
         // divide total count by items displayed on page
-        console.log(response.data);
-        console.log("math", Math.round(response.data.count / 12 + 0.5));
         setPageCount(Math.round(response.data.count / 12 + 0.5));
       })
       .catch(e => {
@@ -66,7 +65,6 @@ const TeaList = (props) => {
     TeaService.getSample(props.sampleLimit)
       .then(response => {
         setTeas(response.data.teas);
-        console.log(response.data);
       })
       .catch(e => {
         console.log(e);
@@ -74,7 +72,6 @@ const TeaList = (props) => {
   };
 
   const refreshList = (e, value) => {
-    console.log(value);
     setCurrentPage(value);
     retrieveTeas(value);
   };
@@ -85,10 +82,10 @@ const TeaList = (props) => {
   return (
     <TeaListWrapper>
       { isSample ? (
-         <TeaGrid>{teas.map((tea, idx) => <TeaCard userId={user.userId} key={tea._id} tea={tea} />)}</TeaGrid>
+         <TeaGrid>{teas.map((tea, idx) => <TeaCard userId={user.user._id} key={tea._id} tea={tea} />)}</TeaGrid>
         ) : (
           <TeasPage>
-            <TeaGrid>{ teas.map((tea) => <TeaCard userId={user.userId} key={tea._id} tea={tea} />) }</TeaGrid>
+            <TeaGrid>{ teas.map((tea) => <TeaCard userId={user.user._id} key={tea._id} tea={tea} />) }</TeaGrid>
             <PaginationWrapper>
               <Pagination count={pageCount} page={currentPage} onChange={refreshList} />
             </PaginationWrapper>

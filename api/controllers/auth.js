@@ -69,8 +69,11 @@ const login = (req, res, next) => {
         process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES }
       );
       
+      // handle this better in future, this is fine but not great
+      foundUser.password = undefined;
+      console.log(foundUser);
       res.status(201).json({
-        userId: foundUser._id.toString(),
+        user: foundUser,
         token: token
       });
       // end of second then

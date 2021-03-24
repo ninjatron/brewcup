@@ -77,13 +77,13 @@ const TeaCard = (props) => {
   // const [expanded, setExpanded] = React.useState(false);
   const tea = props.tea;
   const history = useHistory();
-  const [isFavorite, setFavorite] = useState(tea.isFavorite ? true : false);
+  const [isFavorite, setFavorite] = useState(tea.favoritedBy.indexOf(props.userId) >= 0 ? true : false);
 
   const toggleFavorite = (e) => {
     e.preventDefault();
     e.stopPropagation();
     TeaService.toggleFavorite(tea._id, props.userId);
-    setFavorite(!tea.isFavorite);
+    setFavorite(!isFavorite);
   }
 
   const handleClick = e => {

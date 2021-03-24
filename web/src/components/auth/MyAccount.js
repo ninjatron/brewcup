@@ -109,7 +109,7 @@ const MyAccount = () => {
 
   const getUserData = () => {
     let initUser = AuthService.getCurrentUser();
-    UserService.single(initUser.userId)
+    UserService.single(initUser.user._id)
      .then(res => {
        setUser({...initialUser, ...res.data.user});
      })

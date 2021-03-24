@@ -79,7 +79,7 @@ const ReviewTea = (props) => {
   };
 
   const [review, setReview] = useState(initialReviewState);
-  const user = AuthService.getCurrentUser();
+  const { user } = AuthService.getCurrentUser();
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -90,7 +90,7 @@ const ReviewTea = (props) => {
     e.preventDefault();
     const data = {
       ...review,
-      userId: user.userId,
+      userId: user._id,
       productId: props.tea._id,
       score: 0,
     };

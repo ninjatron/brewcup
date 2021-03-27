@@ -24,6 +24,7 @@ const getUsersReviews = (req, res, next) => {
 // get all reviews belonging to a product
 const getProductReviews = (req, res, next) => {
   const productId = req.params.teaId;
+  // TODO: limit, this should pagination
   Review.find({ product: productId }).sort({ createdAt: 'descending' })
     .then(response => {
       res.status(200).json({

@@ -26,6 +26,7 @@ const getProductReviews = (req, res, next) => {
   const productId = req.params.teaId;
   // TODO: limit, this should pagination
   Review.find({ product: productId }).sort({ createdAt: 'descending' })
+    .populate('author')
     .then(response => {
       res.status(200).json({
         message: "Product reviews",
@@ -35,7 +36,18 @@ const getProductReviews = (req, res, next) => {
     .catch(err => {
       if (!err.statusCode) err.statusCode = 404;
       next(err);
-    })
+    })    
+  // Review.find({ product: productId }).sort({ createdAt: 'descending' })
+  //   .then(response => {
+  //     res.status(200).json({
+  //       message: "Product reviews",
+  //       reviews: response
+  //     });
+  //   })
+  //   .catch(err => {
+  //     if (!err.statusCode) err.statusCode = 404;
+  //     next(err);
+  //   })
 };
 
 

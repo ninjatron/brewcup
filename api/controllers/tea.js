@@ -59,21 +59,40 @@ const getPaginatedTeas = (req, res, next) => {
 
 const getPaginatedResults = (req, res, next) => {
   const pageNo = parseInt(req.params.pageNumber) - 1;
+  const query = req.params.query;
   const itemCount = 20;
-  Tea.find()
-     .sort({ score: 1 })
-     .skip(pageNo * itemCount)
-     .limit(itemCount)
-     .then(teas => {
-      res.status(200).json({
-        message: "Teas retrieved",
-        teas: teas
+  console.log(query);
+  if (query === undefined) {
+    Tea.find()
+      .sort({ score: 1 })
+      .skip(pageNo * itemCount)
+      .limit(itemCount)
+      .then(teas => {
+        res.status(200).json({
+          message: "Teas retrieved",
+          teas: teas
+        })
       })
-     })
-     .catch(err => {
-        if (!err.statusCode) err.statusCode = 500;
-        next(err);
-     });
+      .catch(err => {
+          if (!err.statusCode) err.statusCode = 500;
+          next(err);
+      });
+    } else {
+        Tea.aggregate()
+            .search({
+              text: {
+                query: query,
+                path: 'name'
+              }
+            })
+            .sort({score: 1})
+            .skip(pageNo * itemCount)
+            .limit(itemCount)
+            .then(result => {
+              console.log(result);
+              res.status(200).json({ result });
+            });
+    }
 };
 
 const getRandomTeas = (req, res, next) => {
@@ -331,6 +350,22 @@ const getAutocompleteResults = async (req, res, next) => {
       console.log(e);
       res.status(500).send({ message: e.message });
   }
+};
+
+const getSearchResults = async (req, res, next) => {
+  let searchText = req.params.query;
+  try {
+    let result = await Tea.aggregate()
+                        .search({
+                          text: {
+                            query: searchText,
+                          }
+                        })
+    res.status(200).json({ result });
+  } catch (e) {
+      console.log(e);
+      res.status(500).send({ message: e.message });
+  }
 }
 
 module.exports = {
@@ -344,5 +379,6 @@ module.exports = {
   getPaginatedTeas,
   getAutocompleteResults,
   getPaginatedResults,
-  toggleFavorite
+  toggleFavorite,
+  getSearchResults
 };

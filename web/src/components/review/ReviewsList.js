@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
+import { Avatar } from '@material-ui/core';
 
 const ReviewsListWrapper = styled.div`
   display: block;
@@ -18,6 +19,7 @@ const ReviewsList = (props) => {
       { props.reviews ? 
         (props.reviews.map(review => 
           <ReviewWrapper key={review._id}>
+            <Avatar src={review.author ? review.author.avatarUrl : ''} />
             <b>{review.title}</b>
             <p>{review.content}</p>
           </ReviewWrapper>

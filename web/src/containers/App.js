@@ -13,6 +13,7 @@ import Teas from './Teas';
 import TeaProfile from './TeaProfile';
 import UserProfile from './UserProfile';
 import Enter from './Enter';
+import SearchResults from '../components/product/SearchResults';
 import AddTea from '../components/product/AddTea';
 //import tempBg from '../static/teabg-2.jpeg';
 //background-image: url(${tempBg});
@@ -79,7 +80,8 @@ const App = () => {
           <Header />
             <AppWrapper>
               <Route path='/' exact component={Home} />
-              <Route path='/teas' component={Teas} />
+              <Route path='/teas' exact component={Teas} />
+              <Route path='/teas/search/:query/:pageNo' component={SearchResults} />
               <Route path='/tea/:teaId' component={TeaProfile}></Route>
               <Route path='/add-tea' component={AddTea} />
               <Route path={['/user/:userId', '/my-account']} component={UserProfile} />

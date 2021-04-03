@@ -47,10 +47,12 @@ const Search = () => {
     }
   };
 
-  const handleKeyPress = (e, v) => {
+  const handleKeyPress = (e) => {
     // TODO
+    let query = e.target.value;
     if (e.key === 'Enter') {
       console.log("Show search results");
+      history.push(`/teas/search/${query}/1`);
     }
   }
 
@@ -71,7 +73,7 @@ const Search = () => {
       <Autocomplete
         freeSolo
         options={queryResults.map(tea => tea.name)}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyPress}
         onChange={handleSelect}
         onInputChange={handleSearchInput}
         onClose={clearInput}

@@ -82,10 +82,10 @@ const TeaList = (props) => {
   return (
     <TeaListWrapper>
       { isSample ? (
-         <TeaGrid>{teas.map((tea, idx) => <TeaCard userId={user.user._id} key={tea._id} tea={tea} />)}</TeaGrid>
+         <TeaGrid>{teas.map((tea, idx) => <TeaCard userId={user.user ? user.user._id : null} key={tea._id} tea={tea} />)}</TeaGrid>
         ) : (
           <TeasPage>
-            <TeaGrid>{ teas.map((tea) => <TeaCard userId={user.user._id} key={tea._id} tea={tea} />) }</TeaGrid>
+            <TeaGrid>{ teas.map((tea) => <TeaCard userId={user.user ? user.user._id : null} key={tea._id} tea={tea} />) }</TeaGrid>
             <PaginationWrapper>
               <Pagination count={pageCount} page={currentPage} onChange={refreshList} />
             </PaginationWrapper>
@@ -93,7 +93,7 @@ const TeaList = (props) => {
         )
       }
     </TeaListWrapper>
-  );
+  )
 };
 
 export default TeaList;

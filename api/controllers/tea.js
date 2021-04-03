@@ -61,7 +61,6 @@ const getPaginatedResults = (req, res, next) => {
   const pageNo = parseInt(req.params.pageNumber) - 1;
   const query = req.params.query;
   const itemCount = 20;
-  console.log(query);
   if (query === undefined) {
     Tea.find()
       .sort({ score: 1 })
@@ -80,14 +79,12 @@ const getPaginatedResults = (req, res, next) => {
     } else {
         Tea.aggregate()
             .search({
-              text: {
-                query: query,
-                path: 'name'
+              "index": "teaIndex",
+              "text": {
+                "query": query,
+                "path": 'name'
               }
             })
-            .sort({score: 1})
-            .skip(pageNo * itemCount)
-            .limit(itemCount)
             .then(result => {
               console.log(result);
               res.status(200).json({ result });

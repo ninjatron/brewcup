@@ -12,7 +12,10 @@ const TeaService = {
     };
     return post('/tea', form, { headers: Header });
   },
-  search: (query, pageNo) => get(`/teas/search/${query}/${pageNo}`),
+  search: (query, pageNo) => {
+    if (pageNo !== undefined) return get(`/teas/search/${query}/${pageNo}`);
+    else return get(`/teas/search/${query}`)
+  },
   update: (id, body) => put(`/tea/${id}`, body),
   remove: (id) => destroy(`/tea/${id}`),
   toggleFavorite: (id, userId) => {

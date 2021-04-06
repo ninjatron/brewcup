@@ -64,7 +64,8 @@ const SearchResults = (props) => {
 
 
   // in future when we have search functionality in api add search here
-  // maybe fix this with main page
+  // maybe fix this with main page thing about it
+  // maybe not
 
   return (
     <TeaListWrapper>

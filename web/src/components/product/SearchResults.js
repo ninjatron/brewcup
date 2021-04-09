@@ -62,10 +62,6 @@ const SearchResults = (props) => {
     retrieveResults(value);
   };
 
-
-  // in future when we have search functionality in api add search here
-  // maybe fix this with main page thing about it
-
   return (
     <TeaListWrapper>
       <TeasPage>

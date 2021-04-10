@@ -75,7 +75,7 @@ const TeaCard = (props) => {
   // const [expanded, setExpanded] = React.useState(false);
   const tea = props.tea;
   const history = useHistory();
-  const [isFavorite, setFavorite] = useState(tea.favoritedBy.indexOf(props.userId) >= 0 ? true : false);
+  const [isFavorite, setFavorite] = useState(props.user ? tea.favoritedBy.indexOf(props.userId) >= 0 ? true : false : false);
 
   const toggleFavorite = (e) => {
     e.preventDefault();

@@ -53,14 +53,16 @@ const App = () => {
     try {
       const currUser = await AuthService.getCurrentUser();
       if (currUser) {
-        setUser({...currUser});
         const { exp } = jwtDecode(currUser.token);
         const expiration = (exp * 1000) - 60000;
         if (Date.now() >= expiration) {
           localStorage.removeItem('currentUser');
           userHasAuthenticated(false);
         }
-        else userHasAuthenticated(true);
+        else {
+          userHasAuthenticated(true);
+          setUser({...currUser});
+        }
       }
     }
     catch(e) {

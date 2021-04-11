@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
-import { Link } from "react-router-dom";
 import { Avatar } from '@material-ui/core';
 
 const ReviewsListWrapper = styled.div`

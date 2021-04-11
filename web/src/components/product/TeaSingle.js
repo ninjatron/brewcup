@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Modal from '@material-ui/core/Modal';
 
 import TeaService from "../../services/TeaService";
 import AddReview from '../review/AddReview';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 // self components
 // import { useAuthContext } from '../context/AuthContext';

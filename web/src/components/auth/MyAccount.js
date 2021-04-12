@@ -1,6 +1,6 @@
 import {useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { TextField, Paper, Tab, TableSortLabelTypeMap } from '@material-ui/core';
+import { TextField, Paper, Tab, Tabs } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
 
 import UserService from '../../services/UserService';
@@ -178,19 +178,6 @@ const MyAccount = () => {
           />
           <SubmitButton onClick={saveChanges}>Update Profile</SubmitButton>
         </ProfileForm>
-        <Paper square>
-  <Tabs
-    value={value}
-    indicatorColor="primary"
-    textColor="primary"
-    onChange={handleChange}
-    aria-label="disabled tabs example"
-  >
-    <Tab label="Active" />
-    <Tab label="Disabled" disabled />
-    <Tab label="Active" />
-  </Tabs>
-</Paper>
       </ProfileFormWrapper>
     </MyAccountWrapper>
   )

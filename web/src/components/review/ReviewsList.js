@@ -8,6 +8,11 @@ const ReviewsListWrapper = styled.div`
 const ReviewWrapper = styled.div`
   padding: 15px 15px;
   font-size: 14px;
+
+  span {
+    float: left;
+    margin-right: 10px;
+  }
 `;
 
 const ReviewsList = (props) => {
@@ -17,7 +22,7 @@ const ReviewsList = (props) => {
       { props.reviews ? 
         (props.reviews.map(review => 
           <ReviewWrapper key={review._id}>
-            <Avatar src={review.author ? review.author.avatarUrl : ''} />
+            <span><Avatar src={review.author ? review.author.avatarUrl : ''} /></span>
             <b>{review.title}</b>
             <p>{review.content}</p>
           </ReviewWrapper>

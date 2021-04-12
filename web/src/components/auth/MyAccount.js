@@ -1,7 +1,6 @@
 import {useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import TextField from '@material-ui/core/TextField';
+import { TextField, Paper, Tab, TableSortLabelTypeMap } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
 
 import UserService from '../../services/UserService';
@@ -120,7 +119,6 @@ const MyAccount = () => {
 
   const saveChanges = () => {
     if (updatedAvatar.length) {
-      // we have updated avatar, call backend
       const formData = new FormData();
       formData.append('avatar', updatedAvatar[0], updatedAvatar[0].name);
       UserService.updateAvatar(user._id, formData);
@@ -179,8 +177,20 @@ const MyAccount = () => {
             variant="outlined"
           />
           <SubmitButton onClick={saveChanges}>Update Profile</SubmitButton>
-          <p>Hmm</p>
         </ProfileForm>
+        <Paper square>
+  <Tabs
+    value={value}
+    indicatorColor="primary"
+    textColor="primary"
+    onChange={handleChange}
+    aria-label="disabled tabs example"
+  >
+    <Tab label="Active" />
+    <Tab label="Disabled" disabled />
+    <Tab label="Active" />
+  </Tabs>
+</Paper>
       </ProfileFormWrapper>
     </MyAccountWrapper>
   )

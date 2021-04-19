@@ -6,3 +6,4 @@ Todo list:
 2. Photo upload
 3. Email password
 4. Password retrieval
+5. Profile extensions.
